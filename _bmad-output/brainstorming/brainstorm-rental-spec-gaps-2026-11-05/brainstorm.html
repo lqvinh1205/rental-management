@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phiếu Kiểm Spec</title>
+<meta name="description" content="Kỷ niệm buổi brainstorming soi gap logic trong spec PO Rental Management v1.0 — 2026-11-05">
+<style>
+:root{
+  --paper:#f4efe4; --paper-2:#ebe3d2; --card:#fffdf7; --ink:#1f2a3a; --ink-2:#4a5566; --muted:#7a7f88;
+  --kraft:#d9b98a; --kraft-ink:#4b3417; --thread:#b23a2a; --thread-soft:#f3d6cf;
+  --rod:#8a8f98; --stitch:#b8ab90; --must:#b23a2a; --should:#b7791f; --could:#2f6f6a; --wont:#6b6f78;
+  --fabric:#1f2a3a; --fabric-ink:#f1e7d0; --fabric-acc:#e0b15a;
+  --shadow:0 1px 0 rgba(0,0,0,.05),0 6px 18px -10px rgba(40,30,10,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#16181d; --paper-2:#1d2027; --card:#22262e; --ink:#ece6d8; --ink-2:#c2bcaf; --muted:#8e8a82;
+    --kraft:#8a6a3e; --kraft-ink:#fbecd2; --thread:#ef7a63; --thread-soft:#3a2420;
+    --rod:#5d636e; --stitch:#4c4a44; --must:#ef7a63; --should:#e3a94a; --could:#5fb6ad; --wont:#8e929b;
+    --fabric:#0d1016; --fabric-ink:#efe3c6; --fabric-acc:#e7b866;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 20px -10px rgba(0,0,0,.7);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 6px, rgba(127,110,80,.045) 6px 7px),
+    repeating-linear-gradient(-45deg, transparent 0 6px, rgba(127,110,80,.045) 6px 7px);
+  overflow-x:hidden;
+}
+.serif{font-family:Georgia,"Times New Roman",serif}
+.mono,code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+code{font-size:.86em;background:var(--paper-2);padding:.05em .35em;border-radius:4px;word-break:break-word}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0}
+section{padding:56px 0 24px}
+.kicker{font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--thread)}
+.sec-head{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;margin-bottom:22px;border-bottom:2px dashed var(--stitch);padding-bottom:14px}
+.sec-head h2{font-size:clamp(26px,4.2vw,40px)}
+.sec-head p{margin:6px 0 0;color:var(--ink-2);max-width:62ch}
+.sec-no{font:700 46px/1 Georgia,serif;color:var(--kraft);min-width:1.4em}
+
+/* ---------- HERO ---------- */
+.hero{padding:40px 0 10px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:32px;align-items:center}
+.bigtag{
+  position:relative;background:var(--kraft);color:var(--kraft-ink);padding:34px 28px 28px 64px;
+  clip-path:polygon(44px 0,100% 0,100% 100%,44px 100%,0 50%);
+  box-shadow:var(--shadow); transform:rotate(-2deg); margin-top:30px;
+}
+.bigtag::before{content:"";position:absolute;left:22px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 3px rgba(0,0,0,.15)}
+.hang{position:relative}
+.hang::before{content:"";position:absolute;left:30px;top:-6px;width:2px;height:64px;background:var(--thread);transform:rotate(-28deg);transform-origin:top}
+.bigtag .kicker{color:var(--kraft-ink);opacity:.75}
+.bigtag h1{font-size:clamp(28px,5vw,48px);margin:10px 0 12px}
+.bigtag p{margin:0 0 14px;max-width:46ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 16px;font:12px/1.4 ui-monospace,Menlo,monospace;opacity:.9}
+.meta span{border:1px solid currentColor;border-radius:3px;padding:3px 7px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:26px}
+.stat{background:var(--card);border-radius:6px;padding:12px 10px;text-align:center;box-shadow:var(--shadow);border-top:4px solid var(--thread)}
+.stat b{display:block;font:700 28px/1 Georgia,serif}
+.stat small{color:var(--muted);font-size:12px}
+
+/* loop */
+.loop-box{position:relative}
+.loop-box svg{width:100%;height:auto;display:block}
+.loop-ring{fill:none;stroke:var(--stitch);stroke-width:3;stroke-dasharray:10 8}
+.loop-node circle{fill:var(--card);stroke:var(--ink);stroke-width:2.5}
+.loop-node text{fill:var(--ink);font:700 19px Georgia,serif;text-anchor:middle}
+.loop-node .num{font:700 16px ui-monospace,Menlo,monospace;fill:var(--thread)}
+.loop-center{fill:var(--ink-2);font:15px ui-monospace,Menlo,monospace;text-anchor:middle}
+.loop-center.big{fill:var(--ink);font:700 26px Georgia,serif}
+.spin{transform-origin:320px 320px;animation:spin 18s linear infinite}
+.spin circle{fill:var(--thread)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+.loop-notes{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.loop-notes li{font-size:13px;background:var(--card);border-left:3px solid var(--thread);padding:7px 10px;border-radius:0 5px 5px 0}
+.loop-notes b{font-family:ui-monospace,Menlo,monospace;color:var(--thread);margin-right:4px}
+
+/* ---------- 1. QUESTION STORMING: racks of hang tags ---------- */
+.rack{margin:0 0 34px}
+.rack-title{display:flex;align-items:center;gap:10px;font:600 14px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.rack-title .cnt{background:var(--ink);color:var(--paper);border-radius:10px;padding:2px 8px;font-size:11px}
+.rod{height:8px;border-radius:4px;background:linear-gradient(var(--rod),color-mix(in srgb,var(--rod) 60%,#000));box-shadow:0 2px 3px rgba(0,0,0,.2)}
+.tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:30px 16px;padding-top:26px}
+.qtag{
+  position:relative;background:var(--card);padding:26px 16px 16px;border-radius:4px 4px 10px 10px;
+  box-shadow:var(--shadow);font-size:14.5px; transform:rotate(var(--r,0deg)); transition:transform .25s;
+  border:1px solid var(--stitch);
+}
+.qtag:hover{transform:rotate(0) translateY(-3px)}
+.qtag::before{content:"";position:absolute;top:8px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 2px var(--stitch)}
+.qtag::after{content:"";position:absolute;top:-26px;left:50%;width:1.5px;height:34px;background:var(--thread)}
+.qtag .q{position:absolute;top:4px;right:10px;font:700 22px Georgia,serif;color:var(--thread);opacity:.85}
+.qtag .id{display:block;font:11px ui-monospace,Menlo,monospace;color:var(--muted);margin-bottom:4px}
+
+/* ---------- 2. MORPHOLOGICAL: state machines as stitched chains ---------- */
+.sm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sm{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow);position:relative}
+.sm::after{content:"";position:absolute;inset:6px;border:1.5px dashed var(--stitch);border-radius:5px;pointer-events:none}
+.sm h3{font-size:18px;margin-bottom:10px}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px}
+.st{font:600 12px/1 ui-monospace,Menlo,monospace;padding:7px 9px;border-radius:14px;border:1.5px solid var(--ink);background:var(--paper);white-space:nowrap}
+.st.end{border-style:dashed;color:var(--ink-2)}
+.arr{color:var(--thread);font-weight:700}
+.or{font:11px ui-monospace,Menlo,monospace;color:var(--muted);margin:0 2px}
+.sm .note{font-size:13px;color:var(--ink-2);margin:10px 0 0}
+.sm .warn{font-size:13px;margin:10px 0 0;background:var(--thread-soft);border-radius:5px;padding:7px 9px}
+.inspect{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
+.ins{background:var(--card);border-radius:8px;padding:12px;box-shadow:var(--shadow);text-align:center}
+.ins small{display:block;color:var(--muted);font-size:12px}
+.ins b{display:block;font-family:Georgia,serif;font-size:16px;margin:2px 0 6px}
+.ins .st{display:inline-block}
+.occ{margin-top:18px;background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow)}
+.occ-bar{display:flex;height:44px;margin:14px 0 8px;border-radius:6px;overflow:hidden;font:600 11px/1.2 ui-monospace,Menlo,monospace}
+.occ-bar div{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 4px}
+.ob1,.ob3{flex:1.1;background:repeating-linear-gradient(135deg,var(--paper-2) 0 6px,var(--card) 6px 12px);color:var(--ink-2)}
+.ob2{flex:3;background:var(--ink);color:var(--paper)}
+.ob4{flex:1.3;background:repeating-linear-gradient(135deg,var(--thread-soft) 0 6px,transparent 6px 12px);color:var(--thread);border:1.5px dashed var(--thread);border-left:0;border-radius:0 6px 6px 0}
+.formula{font:13px ui-monospace,Menlo,monospace;color:var(--ink);word-break:break-word}
+.notes-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:18px}
+.nstrip{font-size:13.5px;background:var(--paper-2);border-radius:5px;padding:10px 12px;border-left:4px solid var(--kraft)}
+
+/* ---------- 3. PERSONA JOURNEY: lanes ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{font:600 13px system-ui,sans-serif;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:20px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.lane{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:16px 0;border-top:1px solid var(--stitch)}
+.lane[hidden]{display:none}
+.who{position:relative;padding-top:20px}
+.hanger{width:84px;height:34px;display:block;margin-bottom:6px}
+.hanger path{fill:none;stroke:var(--ink-2);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.who b{display:block;font:700 18px Georgia,serif}
+.who small{color:var(--muted);font-size:12px}
+.steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;counter-reset:s}
+.step{position:relative;background:var(--card);border-radius:6px;padding:10px 12px 10px 38px;font-size:14px;box-shadow:var(--shadow)}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:9px;top:10px;font:700 12px ui-monospace,Menlo,monospace;color:var(--pc)}
+.step{border-left:3px solid var(--pc)}
+
+/* ---------- 4. FAILURE ANALYSIS: post-mortem care labels ---------- */
+.pm-intro{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--fabric);color:var(--fabric-ink);border-radius:8px;padding:14px 16px;margin-bottom:18px;font-size:14px}
+.pm-intro .clock{font:700 22px ui-monospace,Menlo,monospace;color:var(--fabric-acc)}
+.pm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.pm{background:var(--card);border-radius:3px;padding:0;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column}
+.pm::after{content:"";position:absolute;inset:5px;border:1px dashed var(--stitch);pointer-events:none}
+.pm-h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px 8px;border-bottom:1px solid var(--stitch);font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.1em;color:var(--muted)}
+.care{display:flex;gap:5px}
+.care i{width:14px;height:14px;border:1.5px solid var(--muted);display:inline-block;position:relative}
+.care i:nth-child(1){border-radius:0 0 6px 6px}
+.care i:nth-child(2){transform:rotate(45deg) scale(.8)}
+.care i:nth-child(3){border-radius:50%}
+.care i::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1.5px;background:var(--thread);transform:rotate(45deg)}
+.pm-c{padding:12px 14px 6px;font-size:14px}
+.pm-c b{color:var(--thread);font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;display:block;margin-bottom:3px}
+.pm-f{margin-top:auto;padding:8px 14px 14px;font-size:13.5px;color:var(--ink-2)}
+.pm-f b{color:var(--could);font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;display:block;margin-bottom:3px}
+.pm-f em{font-style:normal;color:var(--muted);font-size:12px}
+
+/* ---------- 5. CONVERGE ---------- */
+.converge{background:var(--paper-2);border-radius:14px;padding:26px 16px 30px;margin-top:20px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.mtag{display:inline-block;font:700 10.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;padding:4px 6px;border-radius:3px;color:#fff;vertical-align:middle}
+@media (prefers-color-scheme: dark){.mtag{color:#111}}
+.m-M{background:var(--must)} .m-S{background:var(--should)} .m-C{background:var(--could)} .m-W{background:var(--wont)}
+.fbtn{font:600 13px system-ui,sans-serif;border:1.5px solid var(--ink-2);background:var(--card);color:var(--ink);border-radius:20px;padding:6px 12px;cursor:pointer}
+.fbtn[aria-pressed="true"]{border-color:var(--thread);box-shadow:inset 0 0 0 1.5px var(--thread)}
+.clusters{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px 16px;padding-top:18px;border-top:8px solid var(--rod);border-radius:4px}
+.cl{position:relative;background:var(--card);border-radius:6px 6px 8px 8px;padding:18px 16px 14px;box-shadow:var(--shadow)}
+.cl::before{content:"";position:absolute;top:-18px;left:28px;width:2px;height:20px;background:var(--ink-2)}
+.cl-h{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.letter{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 22px Georgia,serif;background:var(--ink);color:var(--paper)}
+.cl-h h3{font-size:18px}
+.cl ul{list-style:none;margin:0;padding:0}
+.cl li{display:flex;gap:8px;align-items:flex-start;font-size:14px;padding:6px 0;border-top:1px dotted var(--stitch)}
+.cl li .mtag{flex:none;margin-top:2px;min-width:52px;text-align:center}
+.cl li.dim{opacity:.18}
+.wont{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.bin{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow)}
+.bin h3{font-size:18px;margin-bottom:10px}
+.bin .row{display:flex;flex-wrap:wrap;gap:8px}
+.x{font-size:14px;padding:6px 10px;border-radius:4px;border:1.5px dashed var(--wont);color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--thread)}
+.mb{font-size:14px;padding:6px 10px;border-radius:4px;border:1.5px solid var(--could);color:var(--ink)}
+
+/* ---------- 6. INSIGHTS: woven labels ---------- */
+.insights{display:grid;gap:22px}
+.woven{
+  background:var(--fabric);color:var(--fabric-ink);border-radius:4px;padding:26px 22px;position:relative;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);
+  box-shadow:var(--shadow);display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,.9fr);gap:20px;align-items:center;
+}
+.woven::before,.woven::after{content:"";position:absolute;left:10px;right:10px;height:0;border-top:2px dashed var(--fabric-acc);opacity:.55}
+.woven::before{top:9px}.woven::after{bottom:9px}
+.roman{font:700 54px/1 Georgia,serif;color:var(--fabric-acc);text-align:center}
+.woven h3{font-size:clamp(20px,2.6vw,26px);margin-bottom:8px;color:var(--fabric-acc)}
+.woven p{margin:0;font-size:15px;opacity:.95}
+.viz{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:12px;font-size:12.5px}
+.axis{margin:6px 0}
+.axis b{display:block;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.06em;color:var(--fabric-acc);margin-bottom:4px}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pills span{font:11px ui-monospace,Menlo,monospace;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:2px 7px}
+.pills span.gone{text-decoration:line-through;opacity:.5}
+.ledger{width:100%;border-collapse:collapse;font:11.5px ui-monospace,Menlo,monospace}
+.ledger td{padding:4px 2px;border-bottom:1px dashed rgba(255,255,255,.18)}
+.ledger td:last-child{text-align:right;color:var(--fabric-acc)}
+.slice{margin:6px 0 10px}
+.slice b{display:block;font:700 11px ui-monospace,Menlo,monospace;margin-bottom:4px;color:var(--fabric-acc)}
+.track{display:flex;gap:3px}
+.track span{flex:1;font:10px/1.2 ui-monospace,Menlo,monospace;text-align:center;padding:5px 2px;border-radius:3px;background:rgba(255,255,255,.14);overflow-wrap:anywhere}
+.track span.miss{background:transparent;border:1px dashed var(--fabric-acc);color:var(--fabric-acc)}
+.track span.thin{background:var(--fabric-acc);color:#1b1b1b}
+.two-flows{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.two-flows div{border:1px dashed var(--fabric-acc);border-radius:6px;padding:10px;text-align:center;font:700 14px Georgia,serif}
+.two-flows small{display:block;font:11px ui-monospace,Menlo,monospace;opacity:.75;margin-top:4px}
+
+footer{padding:40px 0 50px;text-align:center;color:var(--muted);font:12px ui-monospace,Menlo,monospace}
+footer .seam{border-top:2px dashed var(--stitch);margin-bottom:16px}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .sm-grid{grid-template-columns:minmax(0,1fr)}
+  .inspect{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .woven{grid-template-columns:minmax(0,1fr)}
+  .roman{text-align:left;font-size:42px}
+  .wont{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  body{font-size:15px}
+  .bigtag{padding:30px 18px 22px 52px;clip-path:polygon(34px 0,100% 0,100% 100%,34px 100%,0 50%);transform:rotate(-1deg)}
+  .bigtag::before{left:14px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .loop-notes{grid-template-columns:minmax(0,1fr)}
+  .lane{grid-template-columns:minmax(0,1fr)}
+  .who{padding-top:0;display:flex;align-items:center;gap:10px}
+  .who .hanger{margin:0;width:60px}
+  .tags,.pm-grid,.clusters,.steps,.notes-strip{grid-template-columns:minmax(0,1fr)}
+  .occ-bar{font-size:9.5px;height:52px}
+  .two-flows{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hang">
+      <div class="bigtag">
+        <div class="kicker">Phiếu kiểm hàng · Spec PO v1.0</div>
+        <h1>Mỗi chiếc váy là một vòng đời. Spec phải theo kịp vòng đó.</h1>
+        <p>Buổi brainstorming tìm và xóa gap logic trong spec PO hệ thống quản lý cửa hàng cho thuê quần áo &amp; phụ kiện — phát hiện mâu thuẫn, thiếu sót, luồng ngoại lệ chưa định nghĩa và đề xuất quy tắc chốt để spec đủ điều kiện DoR cho MVP.</p>
+        <div class="meta"><span>2026-11-05</span><span>chế độ: autonomous</span><span>trạng thái: complete</span></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>123</b><small>ý tưởng / gap</small></div>
+        <div class="stat"><b>4</b><small>kỹ thuật</small></div>
+        <div class="stat"><b>11</b><small>cụm A–K</small></div>
+        <div class="stat"><b>4</b><small>insight gốc</small></div>
+      </div>
+    </div>
+
+    <div class="loop-box" aria-label="Vòng đời tài sản cho thuê">
+      <svg viewBox="0 0 640 640" role="img" aria-labelledby="loopt">
+        <title id="loopt">Vòng đời tài sản: đặt giữ, bàn giao, trả, kiểm tra, vệ sinh/sửa, sẵn sàng</title>
+        <circle class="loop-ring" cx="320" cy="320" r="220"/>
+        <g class="spin"><circle cx="320" cy="100" r="7"/></g>
+        <text class="loop-center big" x="320" y="300">1 món đồ</text>
+        <text class="loop-center" x="320" y="330">vòng lặp vô tận</text>
+        <text class="loop-center" x="320" y="356">— gap nằm ở mỗi khúc nối —</text>
+        <g id="nodes"></g>
+      </svg>
+      <ol class="loop-notes" id="loopNotes"></ol>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- 1 QUESTION STORMING -->
+<section id="qs">
+  <div class="sec-head">
+    <div class="sec-no">01</div>
+    <div>
+      <div class="kicker">Kỹ thuật 1 · Question Storming</div>
+      <h2>Giá treo câu hỏi</h2>
+      <p>Chỉ đặt câu hỏi, chưa trả lời. Mỗi thẻ là một câu hỏi soi gap trong spec v1.0, treo theo từng giá.</p>
+    </div>
+  </div>
+  <div id="racks"></div>
+</section>
+
+<!-- 2 MORPHOLOGICAL -->
+<section id="ma">
+  <div class="sec-head">
+    <div class="sec-no">02</div>
+    <div>
+      <div class="kicker">Kỹ thuật 2 · Morphological Analysis</div>
+      <h2>Rập may các state machine</h2>
+      <p>Phân rã spec thành các máy trạng thái và ma trận chuyển trạng thái — như cắt rập trước khi may.</p>
+    </div>
+  </div>
+  <div class="sm-grid" id="sms"></div>
+
+  <div class="occ">
+    <div class="kicker">Khoảng chiếm dụng (occupancy)</div>
+    <div class="occ-bar" aria-hidden="true">
+      <div class="ob1">buffer_before</div>
+      <div class="ob2">handover_planned → return_planned</div>
+      <div class="ob3">buffer_after</div>
+      <div class="ob4">kéo dài động khi quá hạn</div>
+    </div>
+    <div class="formula">occupancy = [handover_planned − buffer_before, return_planned + buffer_after]</div>
+  </div>
+
+  <h3 style="margin:26px 0 4px;font-size:20px">Kết quả kiểm tra → trạng thái tài sản</h3>
+  <p style="margin:0;color:var(--ink-2);font-size:14px">Mapping chưa có trong spec. Đề xuất:</p>
+  <div class="inspect" id="inspect"></div>
+
+  <div class="notes-strip" id="maNotes"></div>
+</section>
+
+<!-- 3 PERSONA JOURNEY -->
+<section id="pj">
+  <div class="sec-head">
+    <div class="sec-no">03</div>
+    <div>
+      <div class="kicker">Kỹ thuật 3 · Persona Journey</div>
+      <h2>Một ngày ở cửa hàng, theo từng móc treo</h2>
+      <p>Đóng vai từng người dùng đi hết một ngày và ghi lại chỗ spec làm họ vấp.</p>
+    </div>
+  </div>
+  <div class="chips" id="chips" role="group" aria-label="Lọc theo vai trò"></div>
+  <div id="lanes"></div>
+</section>
+
+<!-- 4 FAILURE ANALYSIS -->
+<section id="fa">
+  <div class="sec-head">
+    <div class="sec-no">04</div>
+    <div>
+      <div class="kicker">Kỹ thuật 4 · Failure Analysis</div>
+      <h2>Nhãn sự cố — hồ sơ khám nghiệm</h2>
+      <p>Giả định hệ thống đã thất bại sau 3 tháng vận hành. Mỗi nhãn ghi một nguyên nhân và cách vá.</p>
+    </div>
+  </div>
+  <div class="pm-intro"><span class="clock">T + 3 tháng</span><span>“Hệ thống đã thất bại.” Đây là những gì chúng ta tìm thấy khi tháo đường may.</span></div>
+  <div class="pm-grid" id="pms"></div>
+</section>
+
+<!-- 5 CONVERGE -->
+<section id="cv">
+  <div class="sec-head">
+    <div class="sec-no">05</div>
+    <div>
+      <div class="kicker">Hội tụ · Affinity Clustering + MoSCoW</div>
+      <h2>Bộ sưu tập chốt cho MVP</h2>
+      <p>Mọi ý tưởng được gom thành 11 cụm, mỗi quy tắc gắn nhãn MoSCoW theo phạm vi MVP.</p>
+    </div>
+  </div>
+  <div class="converge">
+    <div class="legend" id="legend" role="group" aria-label="Lọc theo MoSCoW"></div>
+    <div class="clusters" id="clusters"></div>
+    <div class="wont">
+      <div class="bin">
+        <div class="kicker">Ngoài MVP</div>
+        <h3>WON'T — để lại trên kệ</h3>
+        <div class="row" id="wontList"></div>
+      </div>
+      <div class="bin">
+        <div class="kicker">Có thể thêm</div>
+        <h3>COULD — treo chờ</h3>
+        <div class="row" id="couldList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 INSIGHTS -->
+<section id="in">
+  <div class="sec-head">
+    <div class="sec-no">06</div>
+    <div>
+      <div class="kicker">Đỉnh điểm · Insight</div>
+      <h2>Bốn nhãn dệt bên trong cổ áo</h2>
+      <p>Những gì giải thích được phần lớn các gap phía trên.</p>
+    </div>
+  </div>
+  <div class="insights">
+    <article class="woven">
+      <div class="roman">I</div>
+      <div>
+        <h3>Tách “trạng thái vật lý” khỏi “khả dụng theo lịch”</h3>
+        <p>Gốc của phần lớn gap: spec trộn trạng thái vật lý của tài sản với khả dụng theo lịch. Tách hai trục (status vật lý vs occupancy từ Reservation/Block) tự giải quyết ~15 gap: RESERVED, PREPARING, at-risk, repair ETA, RETIRED có lịch tương lai.</p>
+      </div>
+      <div class="viz">
+        <div class="axis"><b>TRỤC 1 · STATUS VẬT LÝ</b><div class="pills"><span>AVAILABLE</span><span>RENTED</span><span>CLEANING</span><span>REPAIRING</span><span>DAMAGED</span><span>LOST</span><span class="gone">RESERVED</span></div></div>
+        <div class="axis"><b>TRỤC 2 · OCCUPANCY (suy ra)</b><div class="pills"><span>Reservation</span><span>Asset Block</span><span>buffer</span><span>at-risk</span></div></div>
+      </div>
+    </article>
+    <article class="woven">
+      <div class="roman">II</div>
+      <div>
+        <h3>Tài chính là sổ cái, không phải trạng thái</h3>
+        <p>Tài chính đang mô tả theo “trạng thái” thay vì “sổ cái”. Khi cọc, công nợ, trạng thái thanh toán đều suy ra từ ledger, các gap cấn trừ, vượt cọc, hold-back, hoàn sai phương thức đều thành loại bút toán.</p>
+      </div>
+      <div class="viz">
+        <table class="ledger" aria-label="Các loại bút toán">
+          <tr><td>thu cọc</td><td>bút toán</td></tr>
+          <tr><td>cấn trừ cọc → phải thu</td><td>bút toán</td></tr>
+          <tr><td>phí vượt cọc → công nợ</td><td>bút toán</td></tr>
+          <tr><td>hold-back</td><td>bút toán</td></tr>
+          <tr><td>hoàn khác phương thức</td><td>bút toán</td></tr>
+          <tr><td><b>trạng thái cọc</b></td><td>= Σ sổ</td></tr>
+        </table>
+      </div>
+    </article>
+    <article class="woven">
+      <div class="roman">III</div>
+      <div>
+        <h3>Cắt MVP theo luồng, không theo tên module</h3>
+        <p>Danh sách MVP cắt module theo tên chứ không theo luồng — MVP có bước giữa (thu cọc, CLEANING) nhưng thiếu bước cuối (hoàn cọc, nghiệm thu vệ sinh) nên không đơn nào hoàn tất được. MVP phải cắt theo luồng end-to-end mỏng.</p>
+      </div>
+      <div class="viz">
+        <div class="slice"><b>CẮT THEO MODULE</b>
+          <div class="track"><span>thu cọc</span><span>CLEANING</span><span class="miss">hoàn cọc?</span><span class="miss">nghiệm thu?</span><span class="miss">COMPLETED ✕</span></div>
+        </div>
+        <div class="slice"><b>LÁT MỎNG END-TO-END</b>
+          <div class="track"><span class="thin">thu cọc</span><span class="thin">vệ sinh-lite</span><span class="thin">hoàn cọc cơ bản</span><span class="thin">COMPLETED ✓</span></div>
+        </div>
+      </div>
+    </article>
+    <article class="woven">
+      <div class="roman">IV</div>
+      <div>
+        <h3>Hai luồng thường gặp nhất lại vắng mặt</h3>
+        <p>Gia hạn thuê và đổi món là hai luồng thường gặp nhất ở cửa hàng cho thuê đồ cưới/dự tiệc nhưng vắng mặt hoàn toàn — rủi ro cao nhất về UX nếu thiếu.</p>
+      </div>
+      <div class="viz">
+        <div class="two-flows">
+          <div>Gia hạn thuê<small>vắng mặt hoàn toàn trong spec</small></div>
+          <div>Đổi món / đổi size<small>vắng mặt hoàn toàn trong spec</small></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="seam"></div>
+    reserve → hand over → return → inspect → clean/repair → available → …<br>
+    brainstorm-rental-spec-gaps · 2026-11-05
+  </div>
+</footer>
+
+<script>
+(function(){
+  function el(tag, cls, text){var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e;}
+  function $(id){return document.getElementById(id);}
+
+  /* ---------- loop ---------- */
+  var stages=["Đặt giữ","Bàn giao","Trả","Kiểm tra","Vệ sinh/Sửa","Sẵn sàng"];
+  var notes=[
+    "HOLD có độc quyền không? Chốt: HOLD chặn availability đến expires_at.",
+    "Khách xác nhận đã nhận bằng gì: chữ ký trên tablet, OTP hay tick?",
+    "OVERDUE tính từ planned_return hay planned_return + grace period?",
+    "Mapping kết quả kiểm tra → trạng thái tài sản chưa có.",
+    "CLEANING trong luồng nhưng module vệ sinh ở Phase 2 → tài sản kẹt.",
+    "RESERVED mâu thuẫn với “lịch tương lai lấy từ Reservation”."
+  ];
+  var NS="http://www.w3.org/2000/svg", g=$("nodes");
+  stages.forEach(function(s,i){
+    var a=(-90+i*60)*Math.PI/180, x=320+220*Math.cos(a), y=320+220*Math.sin(a);
+    var n=document.createElementNS(NS,"g"); n.setAttribute("class","loop-node");
+    var c=document.createElementNS(NS,"circle"); c.setAttribute("cx",x); c.setAttribute("cy",y); c.setAttribute("r",22);
+    var t=document.createElementNS(NS,"text"); t.setAttribute("x",x); t.setAttribute("y",y+6); t.setAttribute("class","num"); t.textContent=i+1;
+    var lx=320+275*Math.cos(a), ly=320+275*Math.sin(a)+7;
+    if(i===0) ly=320+220*Math.sin(a)-34; if(i===3) ly=320+220*Math.sin(a)+50;
+    var l=document.createElementNS(NS,"text"); l.setAttribute("x",lx); l.setAttribute("y",ly); l.textContent=s;
+    n.appendChild(c); n.appendChild(t); n.appendChild(l); g.appendChild(n);
+    var li=el("li"); li.appendChild(el("b",null,String(i+1))); li.appendChild(document.createTextNode(stages[i]+" — "+notes[i])); $("loopNotes").appendChild(li);
+  });
+
+  /* ---------- 1. Question Storming ---------- */
+  var racks=[
+    ["Reservation & giữ hàng",[
+      "Reservation chưa có state machine riêng: HOLD → CONFIRMED → CONSUMED(bàn giao) / RELEASED / EXPIRED — spec chỉ có trạng thái đơn",
+      "Reservation hết hạn thì đơn PENDING_CONFIRMATION đi đâu? Thiếu trạng thái EXPIRED hoặc quy tắc quay về DRAFT",
+      "Reservation tạm (HOLD) có độc quyền không? Nếu không chặn availability thì 2 sales vẫn hứa cùng 1 món — cần chốt: HOLD chặn availability đến expires_at",
+      "expires_at do ai đặt, có được gia hạn hold không, giới hạn số lần gia hạn để chống “ôm hàng”",
+      "Trạng thái tài sản RESERVED mâu thuẫn với nguyên tắc “lịch tương lai lấy từ Reservation”: món đặt tháng sau có là RESERVED hôm nay? Đề xuất bỏ RESERVED khỏi trạng thái vận hành"]],
+    ["Buffer & lịch cửa hàng",[
+      "Buffer trước/sau: buffer-sau của đơn A có được chồng buffer-trước của đơn B không? Công thức chồng lấn chưa nói rõ khoảng nào gồm buffer",
+      "Thay đổi cấu hình buffer có ảnh hưởng reservation đã xác nhận không? Cần snapshot buffer vào reservation",
+      "Giờ hẹn ngoài giờ mở cửa có bị chặn không? Thiếu lịch giờ làm việc cửa hàng"]],
+    ["Thời gian thuê & quá hạn",[
+      "Gia hạn thuê (extension) hoàn toàn vắng mặt trong spec: kiểm khả dụng, tính tiền thêm, cọc bổ sung, xung đột đơn kế tiếp",
+      "Khách trả sớm: occupancy có thu ngắn lại không, có hoàn tiền thuê không? Chưa có chính sách",
+      "Thời gian tính tiền theo giờ hẹn hay giờ bàn giao thực tế? Khách lấy hàng trễ có dời hạn trả không?",
+      "OVERDUE tính từ planned_return hay planned_return + grace period? Spec thiếu grace period",
+      "Quá hạn bao lâu thì chuyển nghi thất lạc (LOST)? Thiếu ngưỡng leo thang",
+      "Phí trả trễ có trần (cap) không — tối đa bằng tiền cọc hay giá trị tài sản?",
+      "Khách không đến nhận (no-show): sau bao lâu thì hủy, giải phóng lịch, cọc bị giữ hay hoàn?"]],
+    ["Cọc, hư hỏng & hoàn tất",[
+      "COMPLETED cần điều kiện chính xác: mọi dòng đã trả+kiểm tra, mọi phí đã chốt, cọc đã quyết toán, công nợ = 0 hoặc đã xóa nợ",
+      "Hư hỏng phát hiện sau khi đã hoàn cọc (vết ố lộ ra khi giặt) xử lý sao? Cần cửa sổ kiểm tra và quy tắc chuyển thành công nợ",
+      "Phí hư hỏng vượt tiền cọc: phần vượt thành công nợ — spec không nối M11.03 với M11.04",
+      "Có cho dùng tiền cọc cấn trừ tiền thuê còn thiếu không? Thiếu loại giao dịch “cấn trừ cọc vào khoản phải thu”",
+      "Cọc bằng tài sản thế chấp (giữ CCCD, giấy tờ xe) phổ biến ở VN — spec chỉ có cọc tiền",
+      "Mất tài sản rồi tìm thấy lại: luồng đảo phí đền bù và khôi phục trạng thái chưa có",
+      "Thu cọc trước rồi xác nhận thất bại vì trùng lịch thì sao? Cần thứ tự: kiểm khả dụng + xác nhận + ghi giao dịch trong cùng transaction hoặc tự động tạo hoàn tiền"]],
+    ["Giá & báo giá",[
+      "Giá thuê đặt ở cấp nào: Product, Variant hay Item? Thứ tự ưu tiên giá chưa định nghĩa",
+      "Bảng giá theo bậc thời lượng (1 ngày/3 ngày/tuần), cuối tuần, mùa cưới/Tết — Q17 chưa có mô hình",
+      "Cọc tính theo đơn hay theo món, theo % giá trị tài sản hay số cố định?",
+      "Báo giá nằm trong phạm vi (2.1) nhưng không có trạng thái/luồng báo giá — DRAFT có in được thành báo giá?"]],
+    ["Báo cáo & khách hàng",[
+      "“Đơn thuê hôm nay” trên dashboard là đơn tạo hôm nay hay đơn bắt đầu hôm nay? Định nghĩa KPI chưa rõ",
+      "Khách hàng có những trạng thái nào (ACTIVE/WARNING/BLOCKED) và mỗi trạng thái ảnh hưởng tạo đơn ra sao?",
+      "Doanh thu thuê ghi nhận lúc nào: lúc thu tiền, lúc bàn giao hay lúc hoàn tất? Báo cáo sẽ lệch nếu không chốt",
+      "Doanh thu theo nhân viên tính cho người tạo đơn hay người phụ trách?"]]
+  ];
+  var qn=0, tilt=[-2.2,1.4,-.8,2,-1.6,.9,-.4,1.8];
+  racks.forEach(function(r){
+    var box=el("div","rack"), t=el("div","rack-title");
+    t.appendChild(document.createTextNode(r[0])); t.appendChild(el("span","cnt",r[1].length));
+    box.appendChild(t); box.appendChild(el("div","rod"));
+    var tags=el("div","tags");
+    r[1].forEach(function(q){
+      qn++; var d=el("div","qtag"); d.style.setProperty("--r",tilt[qn%tilt.length]+"deg");
+      d.appendChild(el("span","q","?")); d.appendChild(el("span","id","Q-"+String(qn).padStart(2,"0")));
+      d.appendChild(document.createTextNode(q)); tags.appendChild(d);
+    });
+    box.appendChild(tags); $("racks").appendChild(box);
+  });
+
+  /* ---------- 2. Morphological ---------- */
+  var sms=[
+    {t:"Rental Order Item",c:["PENDING","ALLOCATED","PREPARED","HANDED_OVER","RETURNED"],e:["INSPECTED","CANCELLED","LOST"],n:"Thiếu state machine cho dòng hàng. Trạng thái đơn nên là tổng hợp suy ra từ trạng thái dòng hàng, không set tay — tránh lệch đơn vs dòng."},
+    {t:"Giao dịch tài chính",c:["PENDING","CONFIRMED"],e:["REVERSED"],n:"PENDING = chờ xác minh chuyển khoản. Spec nói “đã xác nhận” nhưng không có trạng thái. Trạng thái cọc nên suy ra từ sổ giao dịch (thu/hoàn/khấu trừ); thêm HOLD_BACK."},
+    {t:"Phiếu vệ sinh / sửa chữa",c:["OPEN","IN_PROGRESS","DONE_PENDING_QC"],e:["PASSED","FAILED"],n:"Phiếu sửa chữa không có ngày hoàn thành dự kiến thì block vô thời hạn hay tới ETA? Cần quy tắc block mở."},
+    {t:"Phiếu kiểm kê",c:["DRAFT","COUNTING","PENDING_APPROVAL","APPLIED"],e:[]},
+    {t:"Phiếu nhập",c:["DRAFT","CONFIRMED"],e:[],w:"Mâu thuẫn: M04.01 tạo item khi xác nhận, WF01 tạo item ở bước 4 trước khi xác nhận ở bước 7."},
+    {t:"Tài sản mới nhập",c:["INTAKE / QUARANTINE","AVAILABLE"],e:[],n:"Thiếu trạng thái cho hàng mới nhập chưa kiểm tra (WF01 bước 6) — hiện chỉ có AVAILABLE."}
+  ];
+  sms.forEach(function(s){
+    var b=el("div","sm"); b.appendChild(el("h3",null,s.t));
+    var ch=el("div","chain");
+    s.c.forEach(function(x,i){ if(i) ch.appendChild(el("span","arr","→")); ch.appendChild(el("span","st",x)); });
+    if(s.e.length){ ch.appendChild(el("span","arr","→")); s.e.forEach(function(x,i){ if(i) ch.appendChild(el("span","or","/")); ch.appendChild(el("span","st end",x)); }); }
+    b.appendChild(ch);
+    if(s.n) b.appendChild(el("p","note",s.n));
+    if(s.w) b.appendChild(el("p","warn",s.w));
+    $("sms").appendChild(b);
+  });
+  [["Đạt","CLEANING"],["Cần sửa","REPAIRING"],["Hư cần xác minh","DAMAGED"],["Mất","LOST"]].forEach(function(p){
+    var d=el("div","ins"); d.appendChild(el("small",null,"kết quả kiểm tra")); d.appendChild(el("b",null,p[0])); d.appendChild(el("span","st",p[1])); $("inspect").appendChild(d);
+  });
+  [
+    "Danh mục không cần giặt (túi, trang sức): cho phép RETURNED_PENDING_INSPECTION → AVAILABLE trực tiếp theo cấu hình danh mục",
+    "Hai kết quả “Đạt – cần vệ sinh thông thường” và “Đạt – sẵn sàng sau bước xử lý tiêu chuẩn” gần như trùng — gộp hoặc định nghĩa lại",
+    "Thiếu ma trận chuyển trạng thái tài sản hợp lệ (từ → đến, ai được làm, cần lý do không)",
+    "Trạng thái tài sản PREPARING: nếu đơn bị hủy sau khi chuẩn bị thì tài sản quay về đâu?",
+    "Tài sản đang RENTED cho đơn A nhưng đã gán cho đơn B ngày mai: hàng đợi chuẩn bị phải hiện “chờ hàng về”",
+    "Cần tách 2 khái niệm: trạng thái vật lý/vận hành (asset status) và khả dụng (availability = suy ra từ lịch + block)",
+    "Thiếu thực thể Asset Block (lịch bảo trì/không khả dụng có start/end/lý do) — spec nhắc “lịch bảo trì” nhưng không định nghĩa",
+    "OVERDUE là cờ suy ra: now > planned_return + grace AND còn dòng chưa trả — chốt khuyến nghị của spec",
+    "NO_SHOW nên là lý do hủy chuẩn hóa, không cần trạng thái mới"
+  ].forEach(function(n){ $("maNotes").appendChild(el("div","nstrip",n)); });
+
+  /* ---------- 3. Persona Journey ---------- */
+  var personas=[
+    ["Sales","var(--thread)",[
+      "Khách vãng lai thuê ngay tại quầy: luồng 5 bước quá dài, cần fast-path tạo+xác nhận+thu+bàn giao một màn hình",
+      "Khách muốn size M nhưng chưa cần chọn món cụ thể: cho phép dòng hàng cấp Variant khi DRAFT, hệ thống tự gán item khi HOLD",
+      "Hệ thống gợi ý món tốt nhất (ít lượt thuê, đúng khoảng trống lịch, gần vị trí) thay vì bắt chọn tay",
+      "Hiển thị khả dụng gộp theo variant: “Size M: 3/5 khả dụng” trước khi đi sâu từng món",
+      "Giảm giá vượt hạn mức khi Manager không có mặt: cần cơ chế duyệt từ xa hoặc nhập PIN Manager",
+      "Khách đổi size sau xác nhận trước bàn giao: luồng “đổi món” giữ đơn, re-check khả dụng, tính chênh lệch",
+      "Khách đổi size sau khi đã nhận hàng (DEC-011): trả dòng cũ + thêm dòng mới trong cùng đơn, không sửa dòng gốc",
+      "Khách gọi xin gia hạn thêm 1 ngày khi đang thuê: cần nút Gia hạn trên đơn RENTED",
+      "Khách có công nợ cũ đến thuê tiếp: cảnh báo + yêu cầu quyền override (DEC-006)",
+      "Khách trùng số điện thoại (vợ chồng dùng chung): tìm kiếm trả nhiều hồ sơ, không unique phone"]],
+    ["Warehouse","var(--should)",[
+      "Quét QR sai món (món của đơn khác): chặn cứng + chỉ rõ món này thuộc đơn nào",
+      "Mạng rớt giữa lúc bàn giao: có cần chế độ offline/lưu nháp cục bộ? Cần chốt cho MVP",
+      "Khách nhờ người khác đến lấy/trả hàng: ghi nhận người nhận/người trả thực tế",
+      "Khách xác nhận đã nhận bằng gì: chữ ký trên tablet, OTP hay tick? Spec chỉ ghi “khách xác nhận”",
+      "Khách trả thiếu phụ kiện (cà vạt, thắt lưng): phụ kiện cần danh sách cấu thành theo variant với giá đền bù",
+      "Set/combo vest = áo+quần+cà vạt: khả dụng của set phụ thuộc mọi thành phần (Q16)",
+      "Vệ sinh gửi tiệm giặt ngoài: cần vị trí “tại nhà cung cấp” và phiếu vệ sinh theo lô nhiều món",
+      "Kiểm kê khi có món đang cho thuê: danh sách kỳ vọng phải loại món RENTED/tại tiệm giặt",
+      "Mất tem QR: in lại giữ nguyên mã, ghi audit lần in",
+      "So sánh ảnh trước/sau thuê cạnh nhau khi kiểm tra để làm căn cứ hư hỏng"]],
+    ["Accountant","var(--could)",[
+      "Khách trả một khoản chuyển khoản gộp cả tiền thuê + cọc: cần phân bổ một payment thành nhiều dòng loại tiền",
+      "Khách đưa tiền thừa/thối lại: ghi nhận số tiền thực nhận vs số áp dụng",
+      "Đối chiếu tiền mặt cuối ca (WF07) không có thực thể ca/quỹ tiền mặt",
+      "Hoàn cọc bằng phương thức khác lúc thu (thu tiền mặt, hoàn chuyển khoản) cần thông tin tài khoản nhận",
+      "Cọc khách không đến nhận lại lâu ngày: chính sách cọc tồn đọng",
+      "Khách tranh chấp phí hư hỏng: trạng thái DISPUTED, giữ phần cọc tranh chấp, quyết định cuối có người duyệt",
+      "Xóa nợ khó đòi (write-off) cần quyền và lý do, ảnh hưởng điều kiện COMPLETED",
+      "Làm tròn tiền VND (đến 1.000đ) chưa được chốt trong NFR 9.2",
+      "Giá đã gồm VAT hay chưa? MVP không xuất hóa đơn nhưng phải ghi rõ",
+      "Tiền cọc bị giữ do no-show/vi phạm được ghi nhận là thu nhập khác, không phải doanh thu thuê"]],
+    ["Owner","var(--ink)",[
+      "Giảm giá cấp đơn phải phân bổ về từng món để báo cáo doanh thu/tài sản đúng (pro-rata theo giá)",
+      "Phí hư hỏng thu được có bù trừ chi phí sửa chữa trong hiệu suất tài sản không?",
+      "Sửa chữa nhiều lần vượt % giá vốn → gợi ý thanh lý",
+      "Tỷ lệ sử dụng tính theo ngày hay giờ; thuê chụp ảnh vài giờ sẽ làm lệch nếu tính theo ngày",
+      "Cấu hình thay đổi (giá, chính sách) không được làm đổi đơn đã xác nhận — áp dụng cả buffer",
+      "Xem ai đã xem ảnh CCCD khách (audit truy cập dữ liệu nhạy cảm, không chỉ audit thay đổi)"]],
+    ["Admin","var(--wont)",[
+      "Nhân viên nghỉ việc còn task/đơn phụ trách: bắt buộc chuyển giao trước khi khóa",
+      "Ma trận quyền ghi “Theo quyền” nhiều chỗ: cần danh mục permission cụ thể (vd order.confirm, price.override, deposit.refund)",
+      "Owner và Admin gộp một cột nhưng là 2 vai trò: Admin có xem báo cáo tài chính không?",
+      "Chính sách mật khẩu, khóa sau N lần sai, timeout phiên, 2FA cho Owner"]],
+    ["Manager","var(--kraft)",[
+      "Cơ chế phê duyệt chung (Approval Request) cho giảm giá, miễn phí, khấu trừ cọc, override buffer, đổi trạng thái tay",
+      "Thông báo “tài sản hỏng ảnh hưởng lịch” cần CTA đổi món với danh sách gợi ý thay thế"]],
+    ["Customer","var(--thread)",[
+      "Biên nhận/hợp đồng phải in snapshot giá, cọc, hạn trả, phí trễ, chính sách hư hỏng",
+      "QR trên món bị khách quét bằng điện thoại: phải yêu cầu đăng nhập, không lộ dữ liệu"]]
+  ];
+  var hanger='<svg class="hanger" viewBox="0 0 84 34" aria-hidden="true"><path d="M42 12 C42 4 50 4 50 9 C50 13 44 13 42 16 L4 30 L80 30 Z"/></svg>';
+  var allChip=el("button","chip","Tất cả"); allChip.setAttribute("aria-pressed","true"); allChip.dataset.p="*"; $("chips").appendChild(allChip);
+  personas.forEach(function(p){
+    var c=el("button","chip",p[0]+" · "+p[2].length); c.setAttribute("aria-pressed","false"); c.dataset.p=p[0]; $("chips").appendChild(c);
+    var lane=el("div","lane"); lane.dataset.p=p[0]; lane.style.setProperty("--pc",p[1]);
+    var who=el("div","who"); who.innerHTML=hanger; var w=el("div"); w.appendChild(el("b",null,p[0])); w.appendChild(el("small",null,p[2].length+" điểm vấp")); who.appendChild(w);
+    var st=el("div","steps"); p[2].forEach(function(s){ st.appendChild(el("div","step",s)); });
+    lane.appendChild(who); lane.appendChild(st); $("lanes").appendChild(lane);
+  });
+  $("chips").addEventListener("click",function(e){
+    var b=e.target.closest(".chip"); if(!b) return;
+    [].forEach.call($("chips").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
+    [].forEach.call($("lanes").children,function(l){ l.hidden=!(b.dataset.p==="*"||l.dataset.p===b.dataset.p); });
+  });
+
+  /* ---------- 4. Failure ---------- */
+  var fails=[
+    ["Đơn A trả trễ, đơn B bàn giao ngay sau buffer → không có hàng.","Cần cờ “đơn kế tiếp có nguy cơ” khi đơn trước quá hạn."],
+    ["Món hỏng phát hiện khi kiểm tra, 3 đơn tương lai đã gán món đó — không ai xử lý.","Cần task bắt buộc đổi món, không chỉ thông báo."],
+    ["Món RETIRED/LOST vẫn còn reservation tương lai.","Chặn chuyển trạng thái nếu chưa xử lý reservation."],
+    ["MVP có CLEANING trong luồng trạng thái nhưng module vệ sinh ở Phase 2 → tài sản kẹt, không về được AVAILABLE.","Đưa vệ sinh-lite vào MVP.","Cụm E"],
+    ["MVP thu cọc nhưng hoàn cọc ở Phase 2 → không đơn nào COMPLETED được.","Phải đưa hoàn cọc cơ bản vào MVP."],
+    ["Job hết hạn reservation là MVP (#6) nhưng thông báo/job nền ở Phase 2.","Phải tách job expiry vào MVP."],
+    ["Bước 2 tạo đơn có “phương thức nhận/trả” nhưng giao hàng ngoài MVP (DEC-014) → nhân viên chọn giao hàng mà không có luồng.","Bỏ phương thức giao/nhận khỏi MVP.","Cụm E"],
+    ["Nhân viên giữ hold liên tục để “xí” váy cho khách quen.","Cần giới hạn gia hạn và báo cáo hold hết hạn."],
+    ["Cùng lúc 2 sales xác nhận → race.","HOLD cũng cần ràng buộc loại trừ ở DB (exclusion constraint), không chỉ lúc confirm."],
+    ["Sửa giờ trả của đơn đã xác nhận nhưng không re-snapshot giá → tiền sai.","Sửa đơn phải tạo phiên bản snapshot mới có lịch sử."],
+    ["Hủy đơn đã bàn giao một phần — “hủy” không hợp lệ, phải là trả sớm.","Chặn hủy khi có dòng HANDED_OVER."],
+    ["Hoàn cọc ngay tại quầy trước khi kiểm tra kỹ → sau đó phát hiện hư.","Cho phép hoàn ngay kèm giữ lại một phần (hold-back) theo danh mục."],
+    ["Tiền cọc bị cộng vào “tiền thu trong ngày” trên dashboard → chủ hiểu nhầm doanh thu.","Tách 2 chỉ số."],
+    ["Phiếu nhập chi phí bổ sung (ship, may tem) không phân bổ về giá vốn → ROI sai.","Quy tắc phân bổ theo giá trị."],
+    ["Báo cáo doanh thu theo tài sản cộng giá gốc không trừ giảm giá cấp đơn → hiệu suất ảo.","Giảm giá phân bổ pro-rata.","Cụm D"],
+    ["Chuyển khoản được ghi CONFIRMED khi chưa thấy tiền về → mất tiền.","Cần trạng thái chờ xác minh."],
+    ["Checklist danh mục bị sửa sau khi đã kiểm tra → không biết lần kiểm tra cũ dùng checklist nào.","Snapshot phiên bản checklist."],
+    ["Thông báo trùng lặp mỗi 5 phút cho đơn quá hạn → nhân viên tắt thông báo.","Cần chu kỳ nhắc và dedupe theo đối tượng."],
+    ["Task trên dashboard không tự đóng khi việc đã xong → danh sách rác.","Task phải suy ra từ trạng thái và tự resolve."],
+    ["Ảnh chụp dung lượng lớn trên mạng cửa hàng yếu → bàn giao chậm.","Nén ảnh phía client, upload nền."],
+    ["Đặt trước nhiều tháng (Q3) nhưng giá Tết chưa cấu hình → giá snapshot sai.","Cần giới hạn khoảng đặt trước tối đa."],
+    ["Thời lượng tối thiểu không có → khách thuê 2 giờ bị tính 1 ngày gây tranh cãi.","Chốt đơn vị tính và tối thiểu."],
+    ["Múi giờ server UTC vs giờ VN → đơn quá hạn sai giờ.","Mọi tính toán theo múi giờ cửa hàng."],
+    ["Variant đổi thuộc tính (size M→L) khi đã có item → đơn cũ hiển thị sai.","Snapshot thuộc tính variant vào dòng hàng."],
+    ["Khách trả nhầm món của cửa hàng khác hoặc món của đơn khác của chính họ.","Quét QR phải định tuyến đúng đơn."],
+    ["Tài sản bị chuyển trạng thái tay về AVAILABLE để “chữa cháy” bỏ qua kiểm tra.","Chỉ Manager, bắt buộc lý do, audit."],
+    ["Đổi buffer toàn cửa hàng làm 20 đơn tương lai đột nhiên chồng lấn.","Chỉ áp dụng buffer mới cho reservation mới."],
+    ["Món đang ở tiệm giặt ngoài bị tính là “thiếu” khi kiểm kê.","Vị trí ngoài cửa hàng cần được tính."]
+  ];
+  fails.forEach(function(f,i){
+    var c=el("article","pm"), h=el("div","pm-h");
+    h.appendChild(el("span",null,"SỰ CỐ #"+String(i+1).padStart(2,"0")));
+    var care=el("span","care"); care.setAttribute("aria-hidden","true"); care.appendChild(el("i")); care.appendChild(el("i")); care.appendChild(el("i")); h.appendChild(care);
+    var cc=el("div","pm-c"); cc.appendChild(el("b",null,"NGUYÊN NHÂN")); cc.appendChild(document.createTextNode(f[0]));
+    var ff=el("div","pm-f"); ff.appendChild(el("b",null,"↳ VÁ LẠI")); ff.appendChild(document.createTextNode(f[1]));
+    if(f[2]){ ff.appendChild(document.createTextNode(" ")); ff.appendChild(el("em",null,"(chốt tại "+f[2]+")")); }
+    c.appendChild(h); c.appendChild(cc); c.appendChild(ff); $("pms").appendChild(c);
+  });
+
+  /* ---------- 5. Converge ---------- */
+  var ML={M:"MUST",S:"SHOULD",C:"COULD"};
+  var clusters=[
+    ["A","Vòng đời & state machine",[["M","Thêm state machine Reservation"],["M","Thêm state machine Order Item"],["M","Ma trận chuyển trạng thái Asset"],["M","Trạng thái đơn suy ra từ dòng hàng"],["M","Bỏ RESERVED khỏi asset status"],["M","Thêm INTAKE"]]],
+    ["B","Availability engine",[["M","occupancy = [planned_start − buffer_before, planned_end + buffer_after]"],["M","Buffer snapshot theo reservation"],["M","HOLD độc quyền có expires_at"],["M","Exclusion constraint ở DB"],["M","Quá hạn kéo dài occupancy động + cờ at-risk cho đơn kế tiếp"],["M","Thực thể Asset Block"]]],
+    ["C","Thay đổi đơn",[["M","Gia hạn thuê"],["M","Đổi món trước bàn giao"],["M","No-show"],["M","Chặn hủy khi đã bàn giao (chuyển thành trả sớm)"],["S","Đổi size sau bàn giao bằng trả dòng + thêm dòng"]]],
+    ["D","Tài chính",[["M","Giao dịch PENDING/CONFIRMED/REVERSED"],["M","Phân bổ payment theo loại tiền"],["M","Trạng thái cọc suy ra từ sổ"],["M","Cấn trừ cọc vào phải thu"],["M","Phí vượt cọc thành công nợ"],["M","Hold-back"],["M","Làm tròn 1.000đ"],["M","Doanh thu ghi nhận theo kỳ thuê"],["M","Giảm giá phân bổ pro-rata"]]],
+    ["E","Mâu thuẫn phạm vi MVP",[["M","Đưa vệ sinh-lite vào MVP"],["M","Đưa hoàn cọc cơ bản vào MVP"],["M","Đưa job hết hạn reservation vào MVP"],["M","Bỏ phương thức giao/nhận khỏi MVP"],["M","Giải quyết mâu thuẫn WF01 vs M04.01"]]],
+    ["F","Quyền & phê duyệt",[["M","Danh mục permission"],["S","Approval Request dùng chung"],["S","PIN Manager tại quầy"]]],
+    ["G","Giá",[["M","Thứ tự ưu tiên Item > Variant > Product"],["M","Đơn vị tính"],["M","Thời lượng tối thiểu"],["M","Giới hạn đặt trước"],["S","Bậc giá theo thời lượng"],["C","Giá mùa/cuối tuần"]]],
+    ["H","Phụ kiện & set",[["S","Phụ kiện là danh sách cấu thành theo variant có giá đền bù"],["C","Set/combo ở Phase 2"]]],
+    ["I","UX vận hành",[["M","Chặn QR sai đơn"],["M","Chữ ký/xác nhận khách tối giản"],["M","So ảnh trước/sau"],["S","Fast-path khách vãng lai"],["S","Khả dụng gộp theo variant"],["C","Gợi ý món tự động"]]],
+    ["J","Task & thông báo",[["M","Task suy ra từ trạng thái, tự đóng"],["S","Dedupe + chu kỳ nhắc"]]],
+    ["K","Toàn vẹn dữ liệu",[["M","Snapshot thuộc tính variant + phiên bản checklist + buffer"],["M","Mọi tính toán theo múi giờ cửa hàng"],["S","Audit truy cập dữ liệu nhạy cảm"]]]
+  ];
+  var counts={M:0,S:0,C:0};
+  clusters.forEach(function(c){
+    var card=el("article","cl"), h=el("div","cl-h");
+    h.appendChild(el("div","letter",c[0])); var hh=el("div"); hh.appendChild(el("div","kicker","Cụm "+c[0])); hh.appendChild(el("h3",null,c[1])); h.appendChild(hh);
+    card.appendChild(h);
+    var ul=el("ul");
+    c[2].forEach(function(it){ counts[it[0]]++; var li=el("li"); li.dataset.m=it[0]; li.appendChild(el("span","mtag m-"+it[0],ML[it[0]])); li.appendChild(el("span",null,it[1])); ul.appendChild(li); });
+    card.appendChild(ul); $("clusters").appendChild(card);
+  });
+  [["*","Tất cả"],["M","MUST · "+counts.M],["S","SHOULD · "+counts.S],["C","COULD · "+counts.C]].forEach(function(f,i){
+    var b=el("button","fbtn",f[1]); b.dataset.m=f[0]; b.setAttribute("aria-pressed",i===0?"true":"false"); $("legend").appendChild(b);
+  });
+  $("legend").addEventListener("click",function(e){
+    var b=e.target.closest(".fbtn"); if(!b) return;
+    [].forEach.call($("legend").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
+    document.querySelectorAll(".cl li").forEach(function(li){ li.classList.toggle("dim", b.dataset.m!=="*" && li.dataset.m!==b.dataset.m); });
+  });
+  ["Offline mode","Đa chi nhánh","Ký điện tử pháp lý","Giao hàng","Set/combo"].forEach(function(w){ $("wontList").appendChild(el("span","x",w)); });
+  ["Cọc thế chấp giấy tờ (ghi nhận dạng bản ghi phi tiền mặt)","Quỹ tiền mặt theo ca"].forEach(function(w){ $("couldList").appendChild(el("span","mb",w)); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Nhận trả &amp; Kiểm tra trang phục | Atelier Ops</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#fad193",
+            "primary-container": "#fc98b7",
+            "surface-container": "#efeeeb",
+            "inverse-primary": "#fc98b7",
+            "background": "#fbf9f7",
+            "on-tertiary": "#fff8f2",
+            "on-surface-variant": "#5e5f5d",
+            "primary": "#964460",
+            "on-tertiary-fixed": "#4c3303",
+            "on-primary-fixed": "#42011f",
+            "secondary-fixed": "#ffd9e2",
+            "on-secondary-fixed-variant": "#71545b",
+            "on-tertiary-fixed-variant": "#6c4f1e",
+            "primary-fixed": "#fc98b7",
+            "surface-container-highest": "#e2e3e0",
+            "inverse-surface": "#0d0e0e",
+            "error": "#a8364b",
+            "error-container": "#f97386",
+            "outline-variant": "#b1b2b0",
+            "secondary-dim": "#684b53",
+            "on-primary": "#fff7f7",
+            "primary-dim": "#873854",
+            "on-secondary-fixed": "#52383f",
+            "secondary-container": "#ffd9e2",
+            "on-error": "#fff7f7",
+            "secondary-fixed-dim": "#f1cbd4",
+            "outline": "#7a7b79",
+            "surface-variant": "#e2e3e0",
+            "primary-fixed-dim": "#ec8baa",
+            "surface-tint": "#964460",
+            "surface-container-high": "#e9e8e5",
+            "on-primary-fixed-variant": "#6c233f",
+            "on-surface": "#313331",
+            "secondary": "#75575f",
+            "on-background": "#313331",
+            "surface-container-low": "#f5f3f1",
+            "tertiary-fixed-dim": "#ebc386",
+            "on-error-container": "#6e0523",
+            "tertiary": "#785a27",
+            "surface-dim": "#dadad7",
+            "tertiary-container": "#fad193",
+            "on-secondary-container": "#664a52",
+            "surface-bright": "#fbf9f7",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-container": "#614615",
+            "surface": "#fbf9f7",
+            "on-secondary": "#fff7f7",
+            "inverse-on-surface": "#9d9d9b",
+            "tertiary-dim": "#6a4e1d",
+            "on-primary-container": "#611a36",
+            "error-dim": "#6b0221"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Be Vietnam Pro", "sans-serif"],
+            "display": ["Be Vietnam Pro", "sans-serif"],
+            "body": ["Be Vietnam Pro", "sans-serif"],
+            "label": ["Public Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1;
+    }
+    /* Hide scrollbars but allow scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased min-h-screen pb-32 select-none">
+<!-- TOP BAR (Sticky Navigation Shell - Task-focused) -->
+<header class="sticky top-0 z-40 flex items-center justify-between w-full h-14 px-4 bg-surface-container-lowest border-b border-surface-container shadow-sm">
+<div class="flex items-center gap-2.5">
+<button aria-label="Quay lại" class="w-10 h-10 -ml-1.5 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container-high transition-colors active:scale-95" type="button">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div>
+<div class="flex items-center gap-1.5">
+<h1 class="font-headline text-[15px] font-bold text-on-surface tracking-tight">Nhận trả · <span class="font-mono text-[14px] text-primary">DT-2611-0037</span></h1>
+</div>
+<div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
+<span>Tiếp nhận kho</span>
+<span class="inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-medium text-primary">Món 1 / 3</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<!-- Status Badge: Trễ hạn có ân hạn -->
+<div class="flex items-center gap-1 py-1 px-2.5 rounded-full bg-error-container/20 border border-error/30 text-error text-[11px] font-semibold tracking-wide shadow-xs">
+<span class="material-symbols-outlined text-[14px] fill-icon">schedule</span>
+<span>Trễ 5h <span class="font-normal opacity-90">(ân hạn 60p)</span></span>
+</div>
+</div>
+</header>
+<!-- PROGRESS STEPPER / INDICATOR FOR RETURN BATCH -->
+<div class="bg-surface-container-lowest px-4 py-2 border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="text-[12px] font-semibold text-primary">Tiến độ kiểm kho:</span>
+<span class="text-[12px] font-medium text-on-surface">1/3 món hoàn tất</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-6 h-1.5 rounded-full bg-primary"></span>
+<span class="w-6 h-1.5 rounded-full bg-surface-container-highest"></span>
+<span class="w-6 h-1.5 rounded-full bg-surface-container-highest"></span>
+</div>
+</div>
+<main class="max-w-md mx-auto px-3.5 pt-3.5 space-y-4">
+<!-- 1. THẺ SẢN PHẨM ĐANG KIỂM TRA (ITEM IDENTITY CARD) -->
+<section class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container">
+<div class="flex gap-3 items-start">
+<div class="relative w-16 h-20 rounded-lg overflow-hidden shrink-0 border border-surface-container shadow-xs">
+<img alt="Váy cưới Lumière M" class="w-full h-full object-cover object-top" src="https://lh3.googleusercontent.com/aida/AEtjO1VanIWzaGWgJVsEioibk_-KIKPNM5yAez1JbNOWqO3wCGczVYKDY3Jt4U62FAijTnMcnS7_nV3Tg3L3vs0R0rWtip-tllWR5QhX8qWraZDLZ1iqe1ly9AUaRyQc3BHZPSffGk9Wrx3UfMv2L9LNpCJCw_OT1d-hD94hxgBh6yURGUoj0hsS1Sdc1UzQoQTf-c9S2b3MxITNiKoxnI7EFrkdJdDWx58QMNB537nKi_xnzyTX2mJAHgCRr4g"/>
+<span class="absolute top-1 left-1 bg-inverse-surface/80 text-surface-container-lowest text-[9px] font-bold px-1 rounded uppercase tracking-wider">M</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-mono text-[12px] font-bold text-primary tracking-wide">VC-012</span>
+<span class="text-[11px] font-medium bg-tertiary-container/30 text-tertiary px-1.5 py-0.5 rounded border border-tertiary/20 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px] fill-icon">hotel_class</span>
+              Hạng A
+            </span>
+</div>
+<h2 class="font-headline text-[15px] font-bold text-on-surface truncate mt-0.5">
+            Váy cưới Lumière M
+          </h2>
+<p class="text-[12px] text-on-surface-variant mt-0.5 line-clamp-1">
+            Ren Ý đính pha lê Swarovski cao cấp
+          </p>
+<div class="mt-2 flex items-center gap-2 text-[11px]">
+<span class="flex items-center gap-1 font-medium text-on-surface bg-surface-container px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[13px] text-primary">shelves</span>
+              Kệ B3 - Kho A1
+            </span>
+<span class="text-on-surface-variant font-mono">Size: M | Dài: 145cm</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. SO SÁNH TRỰC QUAN HÌNH ẢNH (BEFORE / AFTER COMPARISON) -->
+<section class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">compare</span>
+<h3 class="font-headline text-[13px] font-bold text-on-surface uppercase tracking-wider">So sánh tình trạng bàn giao</h3>
+</div>
+<span class="text-[11px] text-on-surface-variant">Vuốt để đối chiếu</span>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Cột Trái: Trước thuê -->
+<div class="relative bg-surface-container-low rounded-lg p-2 border border-surface-container flex flex-col">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-[11px] font-semibold text-on-surface">Trước thuê (01/11)</span>
+<span class="flex items-center text-[10px] font-bold text-[#2E7D5B] bg-[#2E7D5B]/10 px-1 py-0.2 rounded">
+<span class="material-symbols-outlined text-[11px] fill-icon mr-0.5">check_circle</span>
+              Chuẩn
+            </span>
+</div>
+<div class="relative rounded overflow-hidden aspect-[3/4] bg-surface-container">
+<img alt="Ảnh váy lúc xuất kho" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida/AEtjO1VanIWzaGWgJVsEioibk_-KIKPNM5yAez1JbNOWqO3wCGczVYKDY3Jt4U62FAijTnMcnS7_nV3Tg3L3vs0R0rWtip-tllWR5QhX8qWraZDLZ1iqe1ly9AUaRyQc3BHZPSffGk9Wrx3UfMv2L9LNpCJCw_OT1d-hD94hxgBh6yURGUoj0hsS1Sdc1UzQoQTf-c9S2b3MxITNiKoxnI7EFrkdJdDWx58QMNB537nKi_xnzyTX2mJAHgCRr4g"/>
+<div class="absolute bottom-1 right-1 bg-inverse-surface/75 text-surface-container-lowest text-[9px] px-1 py-0.5 rounded font-mono">
+              Xuất kho
+            </div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1.5 text-center truncate">Đầy đủ phụ kiện &amp; nếp là</p>
+</div>
+<!-- Cột Phải: Sau trả -->
+<div class="relative bg-surface-container-low rounded-lg p-2 border-2 border-primary/40 flex flex-col">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-[11px] font-bold text-primary">Sau trả (Hiện tại)</span>
+<span class="flex items-center text-[10px] font-bold text-error bg-error-container/25 px-1 py-0.2 rounded">
+<span class="material-symbols-outlined text-[11px] mr-0.5">warning</span>
+              Vết ố
+            </span>
+</div>
+<div class="relative rounded overflow-hidden aspect-[3/4] bg-surface-container group">
+<img alt="Ảnh váy sau khi nhận lại" class="w-full h-full object-cover object-bottom filter contrast-105" src="https://lh3.googleusercontent.com/aida/AEtjO1VanIWzaGWgJVsEioibk_-KIKPNM5yAez1JbNOWqO3wCGczVYKDY3Jt4U62FAijTnMcnS7_nV3Tg3L3vs0R0rWtip-tllWR5QhX8qWraZDLZ1iqe1ly9AUaRyQc3BHZPSffGk9Wrx3UfMv2L9LNpCJCw_OT1d-hD94hxgBh6yURGUoj0hsS1Sdc1UzQoQTf-c9S2b3MxITNiKoxnI7EFrkdJdDWx58QMNB537nKi_xnzyTX2mJAHgCRr4g"/>
+<!-- Điểm ghim định vị vết bẩn (Defect Pin) -->
+<div class="absolute bottom-4 left-6 flex items-center justify-center">
+<span class="absolute w-6 h-6 rounded-full bg-error/40 animate-ping"></span>
+<button class="relative w-5 h-5 rounded-full bg-error text-surface-container-lowest flex items-center justify-center text-[10px] font-bold shadow-md" type="button">
+                !
+              </button>
+</div>
+<div class="absolute top-1 right-1 flex flex-col gap-1">
+<button aria-label="Phóng to ảnh" class="w-7 h-7 rounded-full bg-inverse-surface/75 text-surface-container-lowest flex items-center justify-center active:scale-95 shadow" type="button">
+<span class="material-symbols-outlined text-[15px]">zoom_in</span>
+</button>
+</div>
+<div class="absolute bottom-1 left-1 bg-error text-surface-container-lowest text-[9px] px-1 py-0.5 rounded font-medium">
+              Vạt dưới lem nhẹ
+            </div>
+</div>
+<button class="mt-1.5 h-7 w-full flex items-center justify-center gap-1 rounded bg-surface-container text-primary text-[11px] font-semibold border border-primary/20 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[14px]">photo_camera</span>
+            Chụp thêm (2 ảnh)
+          </button>
+</div>
+</div>
+</section>
+<!-- 3. CHECKLIST KIỂM TRA (ONE-HANDED TOGGLES) -->
+<section class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container space-y-3">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline text-[14px] font-bold text-on-surface">Kiểm tra chi tiết (7 tiêu chuẩn)</h3>
+<p class="text-[11px] text-on-surface-variant">Chạm để đổi Đạt / Không đạt</p>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-surface-container text-on-surface rounded-full">6/7 Đạt</span>
+</div>
+<div class="space-y-2">
+<!-- Item 1: Đúng tài sản -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-[#2E7D5B] text-[20px] shrink-0 fill-icon">qr_code_2</span>
+<div class="min-w-0">
+<div class="text-[13px] font-semibold text-on-surface">1. Đúng mã tài sản</div>
+<div class="text-[11px] text-on-surface-variant font-mono truncate">Mã quét: VC-012 · Khớp hệ thống</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-[#2E7D5B]/15 text-[#2E7D5B] font-bold text-[12px] flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] fill-icon">check</span>
+              Đạt
+            </button>
+</div>
+</div>
+<!-- Item 2: Đủ phụ kiện -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-[#2E7D5B] text-[20px] shrink-0 fill-icon">inventory_2</span>
+<div class="min-w-0">
+<div class="text-[13px] font-semibold text-on-surface">2. Đủ phụ kiện đi kèm</div>
+<div class="text-[11px] text-on-surface-variant truncate">Voan cưới ren Ý + Vali treo chuyên dụng</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-[#2E7D5B]/15 text-[#2E7D5B] font-bold text-[12px] flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] fill-icon">check</span>
+              Đạt
+            </button>
+</div>
+</div>
+<!-- Item 3: Không rách/sứt chỉ -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-[#2E7D5B] text-[20px] shrink-0 fill-icon">cut</span>
+<div class="min-w-0">
+<div class="text-[13px] font-semibold text-on-surface">3. Không rách / sứt chỉ</div>
+<div class="text-[11px] text-on-surface-variant truncate">Viền tùng váy &amp; nẹp eo nguyên vẹn</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-[#2E7D5B]/15 text-[#2E7D5B] font-bold text-[12px] flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] fill-icon">check</span>
+              Đạt
+            </button>
+</div>
+</div>
+<!-- Item 4: Không bẩn/ố màu -> PHÁT HIỆN LỖI (TOGGLE NO CẢNH BÁO) -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-error-container/15 border-2 border-error/50">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 fill-icon">error</span>
+<div class="min-w-0">
+<div class="text-[13px] font-bold text-error">4. Không bẩn / ố màu</div>
+<div class="text-[11px] text-error font-medium truncate">Phát hiện ố vang nhẹ vạt trong 20cm</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-error text-surface-container-lowest font-bold text-[12px] flex items-center gap-1 shadow-sm active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+              Có ố bẩn
+            </button>
+</div>
+</div>
+<!-- Item 5: Không mất nút/chi tiết -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-[#2E7D5B] text-[20px] shrink-0 fill-icon">radio_button_checked</span>
+<div class="min-w-0">
+<div class="text-[13px] font-semibold text-on-surface">5. Không mất hạt/nút</div>
+<div class="text-[11px] text-on-surface-variant truncate">Hạt đá cườm ngực &amp; hàng nút lưng đủ</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-[#2E7D5B]/15 text-[#2E7D5B] font-bold text-[12px] flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] fill-icon">check</span>
+              Đạt
+            </button>
+</div>
+</div>
+<!-- Item 6: Khóa/dây kéo tốt -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-[#2E7D5B] text-[20px] shrink-0 fill-icon">lock</span>
+<div class="min-w-0">
+<div class="text-[13px] font-semibold text-on-surface">6. Khóa / dây kéo trơn tru</div>
+<div class="text-[11px] text-on-surface-variant truncate">Dây kéo YKK ẩn hoạt động tốt</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-[#2E7D5B]/15 text-[#2E7D5B] font-bold text-[12px] flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] fill-icon">check</span>
+              Đạt
+            </button>
+</div>
+</div>
+<!-- Item 7: Khôi phục form gốc -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0 pr-2">
+<span class="material-symbols-outlined text-[#2E7D5B] text-[20px] shrink-0 fill-icon">straighten</span>
+<div class="min-w-0">
+<div class="text-[13px] font-semibold text-on-surface">7. Khôi phục form gốc</div>
+<div class="text-[11px] text-on-surface-variant truncate">Đã tháo nếp lai 2cm tạm thời khi thuê</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="h-9 px-3 rounded-lg bg-[#2E7D5B]/15 text-[#2E7D5B] font-bold text-[12px] flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] fill-icon">check</span>
+              Đạt
+            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. BỘ CHỌN KẾT LUẬN PHÂN LOẠI (RESULT SELECTOR RADIO CARDS) -->
+<section class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container space-y-2.5">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-[13px] font-bold text-on-surface uppercase tracking-wider">Phân loại xử lý tiếp theo</h3>
+<span class="text-[11px] text-primary font-medium">Bắt buộc</span>
+</div>
+<div class="grid grid-cols-1 gap-2">
+<!-- Option 1: Vệ sinh tiêu chuẩn -->
+<label class="flex items-center justify-between p-3 rounded-lg border border-surface-container bg-surface-container-lowest active:scale-[0.99] transition cursor-pointer">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="disposition" type="radio"/>
+<div>
+<div class="text-[13px] font-semibold text-on-surface">Đạt → Vệ sinh tiêu chuẩn</div>
+<div class="text-[11px] text-on-surface-variant">Giặt hấp phổ thông, đưa lại kệ kho</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">local_laundry_service</span>
+</label>
+<!-- Option 2: Cần vệ sinh đặc biệt (ĐANG CHỌN) -->
+<label class="flex items-center justify-between p-3 rounded-lg border-2 border-primary bg-primary-container/10 active:scale-[0.99] transition cursor-pointer shadow-xs">
+<div class="flex items-center gap-3">
+<input checked="" class="w-4 h-4 text-primary focus:ring-primary" name="disposition" type="radio"/>
+<div>
+<div class="text-[13px] font-bold text-primary flex items-center gap-1.5">
+                Cần vệ sinh đặc biệt
+                <span class="text-[9px] bg-primary text-surface-container-lowest px-1.5 py-0.2 rounded font-medium">Khuyên dùng</span>
+</div>
+<div class="text-[11px] text-on-surface-variant">Tẩy điểm vết ố rượu vang / dầu mỡ vạt trong</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-primary fill-icon">dry_cleaning</span>
+</label>
+<!-- Option 3: Cần sửa chữa -->
+<label class="flex items-center justify-between p-3 rounded-lg border border-surface-container bg-surface-container-lowest active:scale-[0.99] transition cursor-pointer">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="disposition" type="radio"/>
+<div>
+<div class="text-[13px] font-semibold text-on-surface">Cần sửa chữa / Đính lại hạt</div>
+<div class="text-[11px] text-on-surface-variant">Chuyển phòng may đo hoàn thiện ren, cúc</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">handyman</span>
+</label>
+<!-- Option 4: Hư hỏng cần xác minh -->
+<label class="flex items-center justify-between p-3 rounded-lg border border-surface-container bg-surface-container-lowest active:scale-[0.99] transition cursor-pointer">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="disposition" type="radio"/>
+<div>
+<div class="text-[13px] font-semibold text-on-surface">Hư hỏng cần xác minh</div>
+<div class="text-[11px] text-on-surface-variant">Biên bản bất thường, giữ cọc giải quyết</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">gavel</span>
+</label>
+<!-- Option 5: Mất tài sản / phụ kiện -->
+<label class="flex items-center justify-between p-3 rounded-lg border border-surface-container bg-surface-container-lowest active:scale-[0.99] transition cursor-pointer">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="disposition" type="radio"/>
+<div>
+<div class="text-[13px] font-semibold text-on-surface">Mất tài sản / thiếu phụ kiện</div>
+<div class="text-[11px] text-on-surface-variant">Kích hoạt quy trình đền bù niêm yết</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">person_search</span>
+</label>
+</div>
+</section>
+<!-- 5. HỘP XỬ LÝ PHÍ PHÁT SINH & BẢO VỆ HƯ HỎNG (AUTO BILLING CALCULATION) -->
+<section class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-[13px] font-bold text-on-surface uppercase tracking-wider">Chi phí phát sinh &amp; Đền bù</h3>
+<span class="text-[10px] uppercase font-bold text-tertiary bg-tertiary-container/30 px-1.5 py-0.5 rounded">Tự động tính</span>
+</div>
+<div class="space-y-2 text-[13px]">
+<!-- Vết bẩn đề xuất -->
+<div class="flex items-center justify-between py-1 border-b border-surface-container">
+<span class="text-on-surface">Vết ố nhẹ vạt dưới (tẩy điểm)</span>
+<span class="font-semibold text-on-surface tabular-nums">200.000đ</span>
+</div>
+<!-- Thẻ miễn trừ: Gói bảo vệ rủi ro nhỏ -->
+<div class="p-2.5 rounded-lg bg-[#2E7D5B]/10 border border-[#2E7D5B]/20 text-[#2E7D5B] flex items-start gap-2"><span class="material-symbols-outlined text-[18px] shrink-0 fill-icon mt-0.5">verified_user</span>
+<div class="text-[11px] leading-relaxed">
+<p class="font-bold text-[12px]">Được miễn phí xử lý ố bẩn</p>
+<p class="opacity-90">Được miễn – khách đã mua <span class="font-semibold">Phí bảo vệ hư hỏng nhỏ (10%)</span>. Phí bảo vệ chỉ miễn cho vết bẩn thông thường, sứt chỉ, mất nút; hư hỏng lớn hoặc mất món vẫn tính phí.</p>
+</div></div>
+<!-- Trả trễ hạn -->
+<div class="flex items-center justify-between py-1 border-b border-surface-container">
+<div>
+<div class="text-on-surface font-medium">Phí phạt trễ hạn (5 giờ)</div>
+<div class="text-[11px] text-[#2E7D5B]">Trong khung ân hạn 6 giờ nội bộ</div>
+</div>
+<span class="font-semibold text-on-surface tabular-nums">0đ</span>
+</div>
+<!-- Tổng phí thu thêm -->
+<div class="flex items-center justify-between pt-1">
+<div>
+<span class="font-headline font-bold text-on-surface text-[14px]">Phí phát sinh thực thu:</span>
+<span class="text-[11px] text-on-surface-variant block">Trừ vào cọc ban đầu (3.000.000đ)</span>
+</div>
+<span class="font-headline text-[18px] font-bold text-[#2E7D5B] tabular-nums">0đ</span>
+</div>
+</div>
+</section>
+<!-- 6. GHI CHÚ KHO VẬN BỔ SUNG -->
+<section class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container">
+<label class="block font-headline text-[13px] font-bold text-on-surface mb-1.5" for="inspector-note">
+        Ghi chú của kiểm kho viên
+      </label>
+<div class="relative">
+<textarea class="w-full text-[13px] p-2.5 rounded-lg border border-surface-container bg-surface-container-low text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/60" id="inspector-note" placeholder="Nhập chi tiết vị trí ố hoặc dặn dò thợ giặt là..." rows="2">Vết ố vang đỏ cách mép gấu 15cm mặt trong, ren ngoài không dính. Ưu tiên xử lý dung dịch hữu cơ số 3.</textarea>
+</div>
+</section>
+</main>
+<!-- 7. NÚT NỔI QUÉT QR THUẬN TAY CÁI PHẢI (FLOATING QR CODE ACTION BUTTON) -->
+<aside class="fixed bottom-24 right-4 z-40">
+<button aria-label="Quét mã QR sản phẩm tiếp theo" class="flex items-center gap-2 pl-3 pr-4 h-12 rounded-full bg-inverse-surface text-surface-container-lowest shadow-lg active:scale-95 transition-transform border border-surface-container-highest/20" type="button">
+<span class="material-symbols-outlined text-[22px] text-tertiary-fixed">qr_code_scanner</span>
+<span class="text-[13px] font-semibold tracking-wide font-headline">Quét tem tiếp</span>
+</button>
+</aside>
+<!-- 8. THANH THAO TÁC CỐ ĐỊNH DƯỚI CÙNG (STICKY THUMB ACTION BAR) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest border-t border-surface-container shadow-[0_-4px_16px_rgba(0,0,0,0.06)] px-4 py-2.5">
+<div class="max-w-md mx-auto flex items-center gap-2.5">
+<!-- Nút phụ: Món tiếp theo -->
+<button class="h-12 px-3.5 rounded-lg border border-outline-variant text-on-surface font-semibold text-[13px] flex items-center justify-center gap-1 active:scale-95 bg-surface hover:bg-surface-container transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[18px]">skip_next</span>
+<span>Món sau (2/3)</span>
+</button>
+<!-- Nút chính Primary CTA: Lưu kiểm tra -->
+<button class="h-12 flex-1 rounded-lg bg-primary text-surface-container-lowest font-headline font-bold text-[14px] flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition-all hover:bg-primary-dim tracking-wide" type="button">
+<span class="material-symbols-outlined text-[20px] fill-icon">task_alt</span>
+<span>Lưu kiểm tra (VC-012)</span>
+</button>
+</div>
+</footer>
+</body></html>

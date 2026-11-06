@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background text-on-surface" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lịch điều phối tài sản | Atelier Ops</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Be Vietnam Pro & Public Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#fc98b7",
+            "on-secondary-container": "#664a52",
+            "primary-fixed-dim": "#ec8baa",
+            "on-tertiary-fixed": "#4c3303",
+            "surface-container-highest": "#e2e3e0",
+            "secondary": "#75575f",
+            "surface-bright": "#fbf9f7",
+            "tertiary-dim": "#6a4e1d",
+            "on-secondary-fixed-variant": "#71545b",
+            "on-primary-container": "#611a36",
+            "surface-container-high": "#e9e8e5",
+            "outline": "#7a7b79",
+            "on-error-container": "#6e0523",
+            "tertiary": "#785a27",
+            "error-container": "#f97386",
+            "on-surface-variant": "#5e5f5d",
+            "on-tertiary": "#fff8f2",
+            "on-secondary-fixed": "#52383f",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#313331",
+            "tertiary-container": "#fad193",
+            "surface-variant": "#e2e3e0",
+            "surface-container-low": "#f5f3f1",
+            "on-secondary": "#fff7f7",
+            "secondary-fixed": "#ffd9e2",
+            "surface-dim": "#dadad7",
+            "on-tertiary-container": "#614615",
+            "primary-fixed": "#fc98b7",
+            "outline-variant": "#b1b2b0",
+            "secondary-fixed-dim": "#f1cbd4",
+            "tertiary-fixed": "#fad193",
+            "inverse-primary": "#fc98b7",
+            "tertiary-fixed-dim": "#ebc386",
+            "surface": "#fbf9f7",
+            "on-tertiary-fixed-variant": "#6c4f1e",
+            "background": "#fbf9f7",
+            "inverse-surface": "#0d0e0e",
+            "on-error": "#fff7f7",
+            "surface-tint": "#964460",
+            "error": "#a8364b",
+            "primary": "#964460",
+            "on-background": "#313331",
+            "primary-dim": "#873854",
+            "secondary-container": "#ffd9e2",
+            "on-primary-fixed-variant": "#6c233f",
+            "secondary-dim": "#684b53",
+            "on-primary": "#fff7f7",
+            "surface-container": "#efeeeb",
+            "inverse-on-surface": "#9d9d9b",
+            "on-primary-fixed": "#42011f",
+            "error-dim": "#6b0221"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Be Vietnam Pro"],
+            "display": ["Be Vietnam Pro"],
+            "body": ["Be Vietnam Pro"],
+            "label": ["Public Sans"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    /* Hatch patterns for Gantt buffers & overdue */
+    .hatch-buffer {
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(122, 123, 121, 0.12),
+        rgba(122, 123, 121, 0.12) 6px,
+        rgba(255, 255, 255, 0.4) 6px,
+        rgba(255, 255, 255, 0.4) 12px
+      );
+    }
+    .hatch-danger {
+      background: repeating-linear-gradient(
+        -45deg,
+        #a8364b,
+        #a8364b 6px,
+        #f97386 6px,
+        #f97386 12px
+      );
+    }
+    .sawtooth-end {
+      clip-path: polygon(0% 0%, 94% 0%, 100% 50%, 94% 100%, 0% 100%);
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f5f3f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b1b2b0;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="h-full font-body overflow-hidden flex flex-col bg-background antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TOP APP BAR -->
+<header class="flex items-center justify-between px-6 py-2.5 w-full bg-surface border-b border-outline-variant shadow-sm z-30 flex-shrink-0">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl fill" style="font-variation-settings: 'FILL' 1;">styler</span>
+<span class="font-headline text-lg font-bold text-primary tracking-tight">Atelier Ops</span>
+</div>
+<!-- Branch Switcher Badge -->
+<div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container rounded-lg border border-outline-variant/40 text-xs font-medium text-on-surface"><span class="material-symbols-outlined text-sm text-primary">storefront</span><span>Cửa hàng chính</span></div>
+<!-- Search Bar -->
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+<input class="w-full bg-surface-container-low pl-9 pr-3 py-1.5 text-xs text-on-surface rounded-lg border border-outline-variant/60 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-on-surface-variant/70 transition-all font-body" placeholder="Tìm mã tài sản (VC-...), khách hàng, đơn..." type="text"/>
+<kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-label font-medium bg-surface-container-high text-on-surface-variant rounded border border-outline-variant/40">⌘K</kbd>
+</div>
+</div>
+<!-- Quick Actions & Profile -->
+<div class="flex items-center gap-2.5">
+<button class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-medium rounded-lg border border-outline-variant transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+<span>Quét QR</span>
+</button>
+<button class="flex items-center gap-1.5 px-3.5 py-1.5 bg-primary hover:bg-primary-dim text-on-primary text-xs font-semibold rounded-lg shadow-sm transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>+ Tạo đơn</span>
+</button>
+<div class="h-4 w-px bg-outline-variant/60 mx-1"></div>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg relative transition-colors">
+<span class="material-symbols-outlined text-lg">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-lg">help</span>
+</button>
+<!-- Profile Avatar -->
+<div class="flex items-center gap-2 pl-1 cursor-pointer">
+<img class="w-7 h-7 rounded-full object-cover ring-1 ring-outline-variant" data-alt="Close up professional portrait of an elegant Vietnamese female boutique operations manager in a minimalist chic studio in Ho Chi Minh City wearing an ivory modern blazer with subtle pearl earrings and warm studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7sSQT6K1PAoyowZvOt-EZ-GFSbXtp0wVAl8SL83k3msEwWw_gtJTTfSOI2I6kAh-P9otXpFuOGThXGBi2F4jFq0ZQbh5rm7iQCQKa4NlXo_Pb-rnROReikQ4TzjucONByJj1Q-x2DHWXcj_NevgMrmSHiE_ZR2Y3LxwJ9diw1iXNZlDRiHwnIncFx01BwvS1kvgo0nPKEvB3gl9yPHp4hQ1JplIHgElhY0DD_MvpyYuuv5b8Xemc8oN1XBPHVuuahHlsMZjJiB-g"/>
+<span class="material-symbols-outlined text-xs text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</header>
+<!-- WORKSPACE BODY WITH SIDEBAR -->
+<div class="flex flex-1 overflow-hidden">
+<!-- SIDE NAVIGATION BAR -->
+<aside class="flex flex-col h-full w-60 px-3 py-4 border-r border-outline-variant bg-surface-container-low flex-shrink-0 justify-between select-none">
+<div class="flex flex-col space-y-1">
+<!-- Sub-header info -->
+<div class="px-3 pb-3 mb-2 border-b border-outline-variant/40 flex items-center justify-between"><div><div class="font-headline text-xs font-bold text-primary uppercase tracking-wider">Hệ Thống Cho Thuê</div><div class="text-[11px] text-on-surface-variant">Cửa hàng chính</div></div><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container-high text-on-surface-variant">Đơn vị chính</span></div>
+<!-- Tab Items -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Tổng quan</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span>Đơn thuê</span>
+</a>
+<!-- ACTIVE TAB: Lịch thuê -->
+<a class="flex items-center justify-between px-3 py-2 bg-secondary-container text-primary font-headline text-sm font-semibold rounded-lg shadow-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg fill" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span>Lịch thuê</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">checkroom</span>
+<span>Sản phẩm &amp; Kho</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">precision_manufacturing</span>
+<span>Vận hành</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span>Tài chính</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">bar_chart</span>
+<span>Báo cáo</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg font-headline text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Quản trị</span>
+</a>
+</div>
+<!-- Sidebar Footer -->
+<div class="pt-3 border-t border-outline-variant/40 space-y-2">
+<button class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-surface-container hover:bg-surface-container-high text-primary rounded-lg text-xs font-semibold border border-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">qr_code_2</span>
+<span>Quét mã kho</span>
+</button>
+<a class="flex items-center gap-3 px-3 py-1.5 text-on-surface-variant hover:text-on-surface rounded-lg text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">support_agent</span>
+<span>Hỗ trợ kỹ thuật</span>
+</a>
+</div>
+</aside>
+<!-- MAIN GANTT WORKSPACE -->
+<main class="flex-1 flex flex-col min-w-0 bg-background overflow-hidden">
+<!-- SUB-HEADER & TOOLBAR -->
+<section class="bg-surface-container-lowest border-b border-outline-variant px-6 py-3 flex-shrink-0">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+<!-- Title & Alert Badge -->
+<div class="flex items-center gap-3">
+<h1 class="font-headline text-lg font-bold text-on-surface tracking-tight">Lịch điều phối tài sản</h1>
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 bg-error/10 border border-error/30 text-error rounded-full text-xs font-medium animate-pulse">
+<span class="material-symbols-outlined text-xs fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span>14 thiết bị / 3 xung đột tiềm ẩn</span>
+</div>
+</div>
+<!-- Controls: View Segments & Range -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- View Segmented Control -->
+<div class="inline-flex p-1 bg-surface-container rounded-lg border border-outline-variant/60 text-xs font-medium">
+<button class="px-2.5 py-1 text-on-surface-variant hover:text-on-surface rounded transition-colors">Ngày</button>
+<button class="px-2.5 py-1 text-on-surface-variant hover:text-on-surface rounded transition-colors">Tuần</button>
+<button class="px-2.5 py-1 text-on-surface-variant hover:text-on-surface rounded transition-colors">Tháng</button>
+<button class="px-3 py-1 bg-primary text-on-primary font-semibold rounded shadow-sm">Timeline tài sản</button>
+</div>
+<!-- Date Range Navigator -->
+<div class="flex items-center bg-surface-container-low rounded-lg border border-outline-variant px-1 py-0.5">
+<button class="p-1 hover:bg-surface-container text-on-surface-variant hover:text-on-surface rounded transition-colors" title="Tuần trước">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-2 py-0.5 text-xs font-semibold text-primary hover:bg-surface-container rounded transition-colors">
+                Hôm nay
+              </button>
+<button class="p-1 hover:bg-surface-container text-on-surface-variant hover:text-on-surface rounded transition-colors" title="Tuần kế tiếp">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+<div class="h-4 w-px bg-outline-variant/60 mx-1"></div>
+<button class="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium text-on-surface hover:text-primary">
+<span class="material-symbols-outlined text-sm text-tertiary">calendar_today</span>
+<span class="tabular-nums font-semibold">03/11 – 16/11, 2026</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Filters Row -->
+<div class="flex flex-wrap items-center justify-between gap-3 mt-3 pt-3 border-t border-outline-variant/30 text-xs">
+<div class="flex flex-wrap items-center gap-2">
+<!-- Filter: Category -->
+<button class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded-md border border-outline-variant/60 text-on-surface font-medium transition-colors">
+<span class="text-on-surface-variant">Danh mục:</span>
+<span class="font-semibold text-primary">Váy cưới cao cấp</span>
+<span class="material-symbols-outlined text-xs">arrow_drop_down</span>
+</button>
+<!-- Filter: Size Variant -->
+<button class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded-md border border-outline-variant/60 text-on-surface font-medium transition-colors">
+<span class="text-on-surface-variant">Biến thể:</span>
+<span class="font-semibold">Tất cả size</span>
+<span class="material-symbols-outlined text-xs">arrow_drop_down</span>
+</button>
+<!-- Filter: Warehouse -->
+<button class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded-md border border-outline-variant/60 text-on-surface font-medium transition-colors">
+<span class="text-on-surface-variant">Kho:</span>
+<span class="font-semibold">Kho tổng (Tầng 2)</span>
+<span class="material-symbols-outlined text-xs">arrow_drop_down</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<!-- Toggles -->
+<label class="flex items-center gap-1.5 cursor-pointer text-xs select-none">
+<input checked="" class="rounded border-outline-variant text-error focus:ring-error w-3.5 h-3.5" type="checkbox"/>
+<span class="font-medium text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">error</span> Chỉ hiện rủi ro
+              </span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer text-xs select-none">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5" type="checkbox"/>
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">timelapse</span> Hiện thời gian đệm (Buffer)
+              </span>
+</label>
+</div>
+</div>
+</section>
+<!-- GANTT MATRIX & DRAWER CONTAINER -->
+<div class="flex-1 flex overflow-hidden relative">
+<!-- SCROLLABLE GANTT MATRIX AREA -->
+<div class="flex-1 overflow-x-auto overflow-y-auto flex flex-col bg-surface-container-lowest" id="gantt-scroll-canvas">
+<!-- GANTT HEADER ROW -->
+<div class="flex border-b border-outline-variant sticky top-0 bg-surface-container-low z-20 shadow-xs min-w-[1380px]">
+<!-- Fixed Asset Sticky Column Header -->
+<div class="w-[300px] flex-shrink-0 px-4 py-2.5 border-r border-outline-variant bg-surface-container-low font-headline text-xs font-semibold text-on-surface flex items-center justify-between sticky left-0 z-30 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]">
+<span>MẪU SẢN PHẨM &amp; TÀI SẢN VẬT LÝ</span>
+<span class="text-[11px] font-normal text-on-surface-variant">5 tài sản hiển thị</span>
+</div>
+<!-- Date Columns: 14 Days (Sun 03/11 to Sat 16/11) -->
+<div class="grid grid-cols-14 flex-1 text-center" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<!-- Day 03 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">CN</div>
+<div class="font-semibold tabular-nums text-on-surface">03/11</div>
+</div>
+<!-- Day 04 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T2</div>
+<div class="font-semibold tabular-nums text-on-surface">04/11</div>
+</div>
+<!-- Day 05 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T3</div>
+<div class="font-semibold tabular-nums text-on-surface">05/11</div>
+</div>
+<!-- Day 06 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T4</div>
+<div class="font-semibold tabular-nums text-on-surface">06/11</div>
+</div>
+<!-- Day 07 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T5</div>
+<div class="font-semibold tabular-nums text-on-surface">07/11</div>
+</div>
+<!-- Day 08 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T6</div>
+<div class="font-semibold tabular-nums text-on-surface">08/11</div>
+</div>
+<!-- Day 09 (Hôm nay - Active Highlight) -->
+<div class="px-1 py-2 border-r border-primary/40 bg-primary/10 text-[11px] relative">
+<div class="text-primary font-bold text-[10px] uppercase">Hôm nay</div>
+<div class="font-bold tabular-nums text-primary">09/11</div>
+<div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+</div>
+<!-- Day 10 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">CN</div>
+<div class="font-semibold tabular-nums text-on-surface">10/11</div>
+</div>
+<!-- Day 11 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T2</div>
+<div class="font-semibold tabular-nums text-on-surface">11/11</div>
+</div>
+<!-- Day 12 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T3</div>
+<div class="font-semibold tabular-nums text-on-surface">12/11</div>
+</div>
+<!-- Day 13 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T4</div>
+<div class="font-semibold tabular-nums text-on-surface">13/11</div>
+</div>
+<!-- Day 14 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T5</div>
+<div class="font-semibold tabular-nums text-on-surface">14/11</div>
+</div>
+<!-- Day 15 -->
+<div class="px-1 py-2 border-r border-outline-variant/30 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T6</div>
+<div class="font-semibold tabular-nums text-on-surface">15/11</div>
+</div>
+<!-- Day 16 -->
+<div class="px-1 py-2 text-[11px]">
+<div class="text-on-surface-variant text-[10px]">T7</div>
+<div class="font-semibold tabular-nums text-on-surface">16/11</div>
+</div>
+</div>
+</div>
+<!-- GROUP 1: VÁY CƯỚI LUMIÈRE -->
+<div class="min-w-[1380px]">
+<!-- Group Header Bar -->
+<div class="flex items-center bg-surface-container px-4 py-1.5 border-b border-outline-variant/60">
+<div class="w-[300px] flex-shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">expand_more</span>
+<span class="font-headline text-xs font-bold text-on-surface">Bộ sưu tập Hoàng Kim 2026 · 3 chiếc vật lý tại kho</span>
+<span class="text-[10px] font-mono text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">LUM-W-M</span>
+</div>
+<div class="text-[11px] text-on-surface-variant pl-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Bộ sưu tập Hoàng Kim 2026 · 3 chiếc vật lý tại kho</span>
+</div>
+</div>
+<!-- ROW 1: VC-011 -->
+<div class="flex border-b border-outline-variant/40 hover:bg-surface-container-low/40 transition-colors h-[72px] relative group">
+<!-- Left Asset Meta (Sticky) -->
+<div class="w-[300px] flex-shrink-0 px-4 py-2 border-r border-outline-variant bg-surface-container-lowest sticky left-0 z-10 flex flex-col justify-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-xs font-bold text-on-surface">VC-011</span>
+<span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-tertiary-container text-on-tertiary-container border border-tertiary/20">A+</span>
+</div>
+<!-- Status Chip: Đang cho thuê (Rented #6B4BA8 tone) -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#6B4BA8]/10 text-[#6B4BA8] border border-[#6B4BA8]/20">
+<span class="material-symbols-outlined text-xs">checkroom</span>
+<span>Đang cho thuê</span>
+</div>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1 truncate">Lụa Mikado Ý · Khóa zip sau</div>
+</div>
+<!-- 14-Day Timeline Canvas for Row 1 -->
+<div class="grid grid-cols-14 flex-1 relative h-full" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<!-- Background column lines -->
+<div class="absolute inset-0 grid grid-cols-14 pointer-events-none" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<!-- Today Column Shade 09/11 -->
+<div class="border-r border-primary/20 bg-primary/5 h-full relative">
+<div class="absolute inset-y-0 left-1/2 w-0.5 border-l-2 border-dashed border-primary z-0 opacity-70"></div>
+</div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="h-full"></div>
+</div>
+<!-- Gantt Bar 1: CONFIRMED (04/11 - 07/11) with hatched buffer -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 1); width: calc((100% / 14) * 3.8);">
+<!-- Confirmed Main Bar -->
+<div class="bg-[#2F5DA8] hover:bg-[#254d8c] text-white rounded-l-lg px-2.5 py-1 flex flex-col justify-center flex-1 shadow-sm border border-[#2F5DA8] cursor-pointer transition-transform active:scale-[0.99]">
+<div class="flex items-center gap-1 text-[11px] font-bold truncate">
+<span class="material-symbols-outlined text-xs">verified</span>
+<span>DT-0042 · Trương Mỹ An</span>
+</div>
+<div class="text-[10px] text-white/80 truncate">04/11 – 07/11 (Hoàn tất trả)</div>
+</div>
+<!-- Hatched Buffer Segment (4h đệm kiểm tra) -->
+<div class="w-10 hatch-buffer rounded-r-lg border-y border-r border-outline-variant/60 flex items-center justify-center text-[9px] font-semibold text-on-surface-variant" title="4h đệm kiểm tra &amp; giặt hấp">
+<span class="material-symbols-outlined text-[11px]">timelapse</span>
+</div>
+</div>
+<!-- Gantt Bar 2: RENTED (09/11 - 13/11) SELECTED ACTIVE ITEM -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 6); width: calc((100% / 14) * 4.9);">
+<!-- Leading buffer -->
+<div class="w-6 hatch-buffer rounded-l-lg border-y border-l border-outline-variant/60 flex items-center justify-center text-[9px] text-on-surface-variant" title="Đệm giao nhận"></div>
+<!-- Main Rented Bar (Selected ring highlight) -->
+<div class="bg-[#6B4BA8] ring-2 ring-primary ring-offset-1 text-white px-3 py-1 flex flex-col justify-center flex-1 shadow-md cursor-pointer transition-transform active:scale-[0.99]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-[11px] font-bold truncate">
+<span class="material-symbols-outlined text-xs">shopping_bag</span>
+<span>DT-0048 · Nguyễn Lan Phương</span>
+</div>
+<span class="text-[9px] bg-white/20 px-1 py-0.2 rounded font-mono font-medium">ĐANG THUÊ</span>
+</div>
+<div class="text-[10px] text-white/80 truncate flex items-center gap-2">
+<span>09/11 09:00 — 13/11 18:00</span>
+<span class="text-tertiary-fixed font-semibold">★ VIP Silver</span>
+</div>
+</div>
+<!-- Trailing buffer -->
+<div class="w-8 hatch-buffer rounded-r-lg border-y border-r border-outline-variant/60 flex items-center justify-center text-[9px] text-on-surface-variant" title="Đệm sau nhận trả"></div>
+</div>
+</div>
+</div>
+<!-- ROW 2: VC-012 (CRITICAL COLLISION & OVERDUE) -->
+<div class="flex border-b border-outline-variant/40 bg-error/5 hover:bg-error/10 transition-colors h-[78px] relative group">
+<!-- Left Asset Meta (Sticky) -->
+<div class="w-[300px] flex-shrink-0 px-4 py-2 border-r border-outline-variant bg-surface-container-lowest sticky left-0 z-10 flex flex-col justify-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-l-4 border-l-error">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-xs font-bold text-on-surface">VC-012</span>
+<span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant border border-outline-variant/40">A</span>
+</div>
+<!-- Overdue red pulse badge -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-error text-on-error animate-pulse shadow-xs">
+<span class="material-symbols-outlined text-xs">running_with_errors</span>
+<span>Quá hạn trả (18h)</span>
+</div>
+</div>
+<div class="text-[11px] text-error font-medium mt-1 truncate">⚠️ Nguy cơ không kịp giao đơn tiếp theo</div>
+</div>
+<!-- 14-Day Timeline Canvas for Row 2 -->
+<div class="grid grid-cols-14 flex-1 relative h-full" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<!-- Background column lines -->
+<div class="absolute inset-0 grid grid-cols-14 pointer-events-none" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<!-- Today Column Shade 09/11 -->
+<div class="border-r border-primary/20 bg-primary/5 h-full relative">
+<div class="absolute inset-y-0 left-1/2 w-0.5 border-l-2 border-dashed border-primary z-0 opacity-70"></div>
+</div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="h-full"></div>
+</div>
+<!-- OVERDUE BOOKING BAR (Started 05/11, Planned 08/11, Overdue to 10/11) -->
+<div class="absolute top-2 h-12 flex z-10" style="left: calc((100% / 14) * 2); width: calc((100% / 14) * 5.3);">
+<!-- Normal part until 08/11 -->
+<div class="bg-error text-on-error rounded-l-lg px-2.5 py-1 flex flex-col justify-center w-2/3 border-y border-l border-error shadow-sm">
+<div class="flex items-center gap-1 text-[11px] font-bold truncate">
+<span class="material-symbols-outlined text-xs">alarm_off</span>
+<span>DT-0039 · Phan Ngọc Diệp</span>
+</div>
+<div class="text-[9px] text-white/90">Hạn trả: 08/11 lúc 18:00</div>
+</div>
+<!-- Overdue striped section encroaching into 09/11 - 10/11 -->
+<div class="w-1/3 hatch-danger text-white rounded-r-lg border-y border-r border-error flex items-center justify-center px-1 font-bold text-[10px] shadow-sm relative">
+<span class="bg-error px-1.5 py-0.5 rounded text-[9px] font-mono tracking-tight shadow">Quá hạn 18h</span>
+</div>
+</div>
+<!-- COLLISION WARNING TOOLTIP BANNER (Floating at intersection 10/11) -->
+<div class="absolute z-20 top-1" style="left: calc((100% / 14) * 6.7);">
+<div class="flex items-center gap-1.5 bg-error text-on-error px-2.5 py-1 rounded shadow-lg border border-white/30 text-[10px] font-bold animate-bounce">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span>Xung đột lịch! Không kịp vệ sinh đệm</span>
+</div>
+</div>
+<!-- NEXT BOOKING BAR (Starts 10/11 - 13/11) : Direct Collision -->
+<div class="absolute top-2 h-12 flex z-10" style="left: calc((100% / 14) * 7.1); width: calc((100% / 14) * 3.5);">
+<div class="bg-[#2F5DA8]/80 border-2 border-dashed border-error text-white rounded-lg px-2.5 py-1 flex flex-col justify-center flex-1 shadow-sm opacity-95">
+<div class="flex items-center justify-between text-[11px] font-bold truncate">
+<span class="truncate">DT-0051 · Vũ Hoàng Yến</span>
+<span class="text-tertiary-container text-[9px] font-mono">14:00 10/11</span>
+</div>
+<div class="text-[9px] text-error-container font-semibold truncate">⚠️ Thiếu 6h đệm giặt hấp chuyên sâu</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ROW 3: VC-013 (REPAIR & CLEANING) -->
+<div class="flex border-b border-outline-variant/40 hover:bg-surface-container-low/40 transition-colors h-[72px] relative group">
+<!-- Left Asset Meta (Sticky) -->
+<div class="w-[300px] flex-shrink-0 px-4 py-2 border-r border-outline-variant bg-surface-container-lowest sticky left-0 z-10 flex flex-col justify-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-xs font-bold text-on-surface">VC-013</span>
+<span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant border border-outline-variant/40">A-</span>
+</div>
+<!-- Repair brown chip -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#9C4A2F]/10 text-[#9C4A2F] border border-[#9C4A2F]/20">
+<span class="material-symbols-outlined text-xs">build</span>
+<span>Bảo dưỡng / Sửa</span>
+</div>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1 truncate">Sứt cườm tay áo &amp; đường tà</div>
+</div>
+<!-- 14-Day Timeline Canvas for Row 3 -->
+<div class="grid grid-cols-14 flex-1 relative h-full" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<!-- Background column lines -->
+<div class="absolute inset-0 grid grid-cols-14 pointer-events-none" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<!-- Today Column Shade 09/11 -->
+<div class="border-r border-primary/20 bg-primary/5 h-full relative">
+<div class="absolute inset-y-0 left-1/2 w-0.5 border-l-2 border-dashed border-primary z-0 opacity-70"></div>
+</div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="h-full"></div>
+</div>
+<!-- REPAIR BAR (04/11 to 08/11 with sawtooth open-ended ETA) -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 1); width: calc((100% / 14) * 5);">
+<div class="bg-[#9C4A2F] text-white px-3 py-1 flex flex-col justify-center flex-1 rounded-l-lg sawtooth-end shadow-sm border border-[#9C4A2F]">
+<div class="flex items-center gap-1.5 text-[11px] font-bold">
+<span class="material-symbols-outlined text-xs">handyman</span>
+<span>Sửa đính kết hạt cườm · Chưa có ETA chốt</span>
+</div>
+<div class="text-[10px] text-white/80">Thợ thêu nghệ nhân ngoài (Xưởng Thủ Đức)</div>
+</div>
+</div>
+<!-- CLEANING TEAL BAR (11/11 - 12/11) -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 8); width: calc((100% / 14) * 2);">
+<div class="bg-[#1F8A99] text-white px-2.5 py-1 rounded-lg flex flex-col justify-center flex-1 shadow-sm border border-[#1F8A99]">
+<div class="flex items-center gap-1 text-[11px] font-bold">
+<span class="material-symbols-outlined text-xs">local_laundry_service</span>
+<span>Giặt hấp chuyên sâu</span>
+</div>
+<div class="text-[10px] text-white/80">Quy trình tơ tằm khô</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- GROUP 2: ÁO DÀI HOÀNG CUNG -->
+<div class="min-w-[1380px]">
+<!-- Group Header Bar -->
+<div class="flex items-center bg-surface-container px-4 py-1.5 border-b border-outline-variant/60">
+<div class="w-[300px] flex-shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base">expand_more</span>
+<span class="font-headline text-xs font-bold text-on-surface">Bộ sưu tập Cưới Truyền Thống · 2 chiếc vật lý tại kho</span>
+<span class="text-[10px] font-mono text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">AD-RED-S</span>
+</div>
+<div class="text-[11px] text-on-surface-variant pl-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Bộ sưu tập Cưới Truyền Thống · 2 chiếc vật lý tại kho</span>
+</div>
+</div>
+<!-- ROW 4: AD-004 -->
+<div class="flex border-b border-outline-variant/40 hover:bg-surface-container-low/40 transition-colors h-[72px] relative group">
+<!-- Left Asset Meta (Sticky) -->
+<div class="w-[300px] flex-shrink-0 px-4 py-2 border-r border-outline-variant bg-surface-container-lowest sticky left-0 z-10 flex flex-col justify-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-xs font-bold text-on-surface">AD-004</span>
+<span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-tertiary-container text-on-tertiary-container border border-tertiary/20">A+</span>
+</div>
+<!-- Status chip: Giữ chỗ (Hold amber) -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#B7791F]/10 text-[#B7791F] border border-dashed border-[#B7791F]">
+<span class="material-symbols-outlined text-xs">schedule</span>
+<span>Giữ chỗ (Hold)</span>
+</div>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1 truncate">Nhung the dệt tay · Thêu rồng phượng</div>
+</div>
+<!-- 14-Day Timeline Canvas for Row 4 -->
+<div class="grid grid-cols-14 flex-1 relative h-full" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<!-- Background column lines -->
+<div class="absolute inset-0 grid grid-cols-14 pointer-events-none" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<!-- Today Column Shade 09/11 -->
+<div class="border-r border-primary/20 bg-primary/5 h-full relative">
+<div class="absolute inset-y-0 left-1/2 w-0.5 border-l-2 border-dashed border-primary z-0 opacity-70"></div>
+</div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="h-full"></div>
+</div>
+<!-- HOLD BAR (Amber bg, dashed border, clock) -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 6); width: calc((100% / 14) * 2.2);">
+<div class="bg-[#B7791F]/15 border-2 border-dashed border-[#B7791F] text-[#B7791F] rounded-lg px-2.5 py-1 flex flex-col justify-center flex-1 shadow-xs">
+<div class="flex items-center gap-1 text-[11px] font-bold truncate">
+<span class="material-symbols-outlined text-xs">alarm</span>
+<span>Giữ cọc 24h · Lê Thu Hà</span>
+</div>
+<div class="text-[10px] text-[#B7791F]/90 font-medium">Hết hạn cọc: Hôm nay 14:30</div>
+</div>
+</div>
+<!-- FITTING SLOT (Small soft pink pill) on 14/11 -->
+<div class="absolute top-3.5 h-9 flex z-10" style="left: calc((100% / 14) * 11); width: calc((100% / 14) * 1.5);">
+<div class="bg-primary-container text-on-primary-container rounded-full px-2.5 py-0.5 flex items-center gap-1.5 border border-primary/30 shadow-xs cursor-pointer hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-xs">styler</span>
+<span class="text-[10px] font-bold truncate">1h thử đồ · Mai Anh (14/11 10:00)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ROW 5: AD-005 -->
+<div class="flex border-b border-outline-variant/40 hover:bg-surface-container-low/40 transition-colors h-[72px] relative group">
+<!-- Left Asset Meta (Sticky) -->
+<div class="w-[300px] flex-shrink-0 px-4 py-2 border-r border-outline-variant bg-surface-container-lowest sticky left-0 z-10 flex flex-col justify-center shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-xs font-bold text-on-surface">AD-005</span>
+<span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant border border-outline-variant/40">A</span>
+</div>
+<!-- Status chip: Giặt hấp (Cleaning teal) -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#1F8A99]/10 text-[#1F8A99] border border-[#1F8A99]/20">
+<span class="material-symbols-outlined text-xs">local_laundry_service</span>
+<span>Giặt hấp (Cleaning)</span>
+</div>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1 truncate">Kèm mấn nhung đính hạt cùng bộ</div>
+</div>
+<!-- 14-Day Timeline Canvas for Row 5 -->
+<div class="grid grid-cols-14 flex-1 relative h-full" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<!-- Background column lines -->
+<div class="absolute inset-0 grid grid-cols-14 pointer-events-none" style="grid-template-columns: repeat(14, minmax(75px, 1fr));">
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<!-- Today Column Shade 09/11 -->
+<div class="border-r border-primary/20 bg-primary/5 h-full relative">
+<div class="absolute inset-y-0 left-1/2 w-0.5 border-l-2 border-dashed border-primary z-0 opacity-70"></div>
+</div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="border-r border-outline-variant/15 h-full"></div>
+<div class="h-full"></div>
+</div>
+<!-- CLEANING TEAL BAR (07/11 - 09/11) -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 4); width: calc((100% / 14) * 2.8);">
+<div class="bg-[#1F8A99] text-white px-2.5 py-1 rounded-lg flex flex-col justify-center flex-1 shadow-sm border border-[#1F8A99]">
+<div class="flex items-center gap-1 text-[11px] font-bold">
+<span class="material-symbols-outlined text-xs">sanitizer</span>
+<span>Hấp khử khuẩn &amp; ủi tơ</span>
+</div>
+<div class="text-[10px] text-white/80">Hoàn thành lúc 16:00 hôm nay</div>
+</div>
+</div>
+<!-- CONFIRMED BLUE BAR (11/11 - 14/11) -->
+<div class="absolute top-2.5 h-11 flex z-10" style="left: calc((100% / 14) * 8); width: calc((100% / 14) * 3.5);">
+<div class="bg-[#2F5DA8] text-white px-2.5 py-1 rounded-lg flex flex-col justify-center flex-1 shadow-sm border border-[#2F5DA8]">
+<div class="flex items-center gap-1 text-[11px] font-bold truncate">
+<span class="material-symbols-outlined text-xs">verified</span>
+<span>DT-0059 · Bùi Khánh Linh</span>
+</div>
+<div class="text-[10px] text-white/80">Lễ ăn hỏi · Nhận đồ tại shop</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT INTERACTIVE DETAIL DRAWER (~360px) -->
+<aside class="w-[360px] flex-shrink-0 bg-surface border-l border-outline-variant flex flex-col shadow-lg z-20 transition-all">
+<!-- Drawer Header -->
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-headline text-sm font-bold text-on-surface">Đơn thuê #DT-0048</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#6B4BA8]/10 text-[#6B4BA8] border border-[#6B4BA8]/30">
+                Đang thuê
+              </span>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-md transition-colors" title="Đóng drawer">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Drawer Body Content -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<!-- Customer Card -->
+<div class="p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/60 shadow-xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="text-xs text-on-surface-variant font-medium">Khách hàng</div>
+<div class="font-headline text-sm font-bold text-on-surface mt-0.5">Nguyễn Lan Phương</div>
+<div class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-xs">call</span>
+<span class="font-mono">0988 123 456</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-tertiary-container text-on-tertiary-container flex items-center gap-1 border border-tertiary/20">
+<span class="material-symbols-outlined text-[10px] fill" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span>VIP Silver</span>
+</span>
+</div>
+</div>
+<!-- Item & Tag Info -->
+<div class="p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/60 shadow-xs space-y-2">
+<div class="text-xs text-on-surface-variant font-medium">Tài sản bàn giao</div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center text-primary font-bold border border-outline-variant/40 flex-shrink-0">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+</div>
+<div>
+<div class="font-headline text-xs font-bold text-on-surface">Váy cưới Lumière (Size M, Trắng ngà)</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-mono text-[11px] font-bold text-primary">VC-011</span>
+<span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-tertiary-container text-on-tertiary-container">Grade A+</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Schedule summary -->
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/60 text-xs space-y-2">
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">date_range</span>
+<span>Lịch trình thuê (4 ngày)</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1 border-t border-outline-variant/40">
+<div>
+<div class="text-[10px] text-on-surface-variant">Bàn giao lúc:</div>
+<div class="font-semibold text-on-surface tabular-nums">09/11 · 09:00</div>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant">Dự kiến trả:</div>
+<div class="font-semibold text-primary tabular-nums">13/11 · 18:00</div>
+</div>
+</div>
+</div>
+<!-- Financials Card -->
+<div class="p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/60 shadow-xs space-y-2 text-xs">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">Tiền thuê (4 ngày):</span>
+<span class="font-semibold tabular-nums text-on-surface">4.800.000₫</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">Tiền cọc đảm bảo:</span>
+<span class="font-semibold tabular-nums text-on-surface">15.000.000₫</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/40 flex items-center justify-between font-bold">
+<span class="text-on-surface">Trạng thái thanh toán:</span>
+<span class="text-[#2E7D5B] flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span> Đã thu cọc
+                </span>
+</div>
+</div>
+<!-- Operations Checklist -->
+<div class="p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/60 shadow-xs space-y-2 text-xs">
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary">checklist</span>
+<span>Checklist bàn giao phụ kiện</span>
+</div>
+<div class="space-y-1.5 pt-1 text-[11px]">
+<label class="flex items-center gap-2 cursor-pointer text-on-surface">
+<span class="material-symbols-outlined text-[#2E7D5B] text-sm">check_box</span>
+<span>Đã ủi hơi nước và bao bọc chống bụi</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer text-on-surface">
+<span class="material-symbols-outlined text-[#2E7D5B] text-sm">check_box</span>
+<span>Kèm voan cài đầu ren cao cấp 2m</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer text-on-surface">
+<span class="material-symbols-outlined text-[#2E7D5B] text-sm">check_box</span>
+<span>Phụ kiện găng tay ren đồng bộ</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Drawer Sticky Actions Footer -->
+<div class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2 flex-shrink-0">
+<button class="flex-1 py-2 bg-primary hover:bg-primary-dim text-on-primary font-semibold text-xs rounded-lg shadow-sm transition-transform active:scale-[0.98] flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-sm">launch</span>
+<span>Mở đơn</span>
+</button>
+<button class="px-3 py-2 bg-surface hover:bg-surface-container text-on-surface font-medium text-xs rounded-lg border border-outline-variant transition-colors flex items-center gap-1" title="Đổi sang mã tài sản khác">
+<span class="material-symbols-outlined text-sm">swap_horiz</span>
+<span>Đổi món</span>
+</button>
+<button class="px-3 py-2 bg-surface hover:bg-surface-container text-on-surface font-medium text-xs rounded-lg border border-outline-variant transition-colors flex items-center gap-1" title="Gia hạn ngày trả">
+<span class="material-symbols-outlined text-sm">update</span>
+<span>Gia hạn</span>
+</button>
+</div>
+</aside>
+</div>
+<!-- BOTTOM LEGEND BAR -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant px-6 py-2 flex items-center justify-between text-xs text-on-surface-variant flex-shrink-0 overflow-x-auto z-30">
+<div class="flex items-center gap-4 min-w-max">
+<span class="font-bold text-[11px] text-on-surface uppercase tracking-wider">Chú giải trạng thái:</span>
+<!-- HOLD -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-[#B7791F]">alarm</span>
+<span class="text-[#B7791F] font-semibold text-[11px]">Giữ chỗ (HOLD)</span>
+</div>
+<!-- CONFIRMED -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-[#2F5DA8] fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[#2F5DA8] font-semibold text-[11px]">Đã xác nhận (CONFIRMED)</span>
+</div>
+<!-- RENTED -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-[#6B4BA8]">checkroom</span>
+<span class="text-[#6B4BA8] font-semibold text-[11px]">Đang thuê (RENTED)</span>
+</div>
+<!-- OVERDUE -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-error fill" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="text-error font-semibold text-[11px]">Quá hạn (OVERDUE)</span>
+</div>
+<!-- BUFFER -->
+<div class="flex items-center gap-1.5">
+<div class="w-3.5 h-3 hatch-buffer border border-outline-variant/60 rounded-xs"></div>
+<span class="text-on-surface-variant font-medium text-[11px]">Đệm xử lý (BUFFER)</span>
+</div>
+<!-- CLEANING -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-[#1F8A99]">local_laundry_service</span>
+<span class="text-[#1F8A99] font-semibold text-[11px]">Giặt hấp (CLEANING)</span>
+</div>
+<!-- REPAIR -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-[#9C4A2F]">build</span>
+<span class="text-[#9C4A2F] font-semibold text-[11px]">Sửa chữa / Chưa có ETA (REPAIR)</span>
+</div>
+<!-- FITTING -->
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-primary">styler</span>
+<span class="text-primary font-semibold text-[11px]">Thử đồ (FITTING)</span>
+</div>
+<!-- AT_RISK -->
+<div class="flex items-center gap-1.5 bg-error/10 px-2 py-0.5 rounded border border-error/30">
+<span class="material-symbols-outlined text-xs text-error">warning</span>
+<span class="text-error font-bold text-[11px]">Nguy cơ trùng lịch (AT_RISK)</span>
+</div>
+</div>
+<div class="hidden xl:flex items-center gap-3 text-[11px] text-on-surface-variant/70 pl-4 border-l border-outline-variant/40">
+<span>Tự động đồng bộ mỗi 30s</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#2E7D5B]"></span>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

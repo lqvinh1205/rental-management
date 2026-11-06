@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background text-on-surface" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Bàn giao · DT-2611-0042 · Lê Hoàng Nam — Atelier Ops</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-dim": "#873854",
+            "error": "#a8364b",
+            "surface-container-highest": "#e2e3e0",
+            "on-tertiary": "#fff8f2",
+            "on-tertiary-fixed-variant": "#6c4f1e",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-fixed": "#4c3303",
+            "on-primary-fixed-variant": "#6c233f",
+            "secondary": "#75575f",
+            "surface-bright": "#fbf9f7",
+            "outline-variant": "#b1b2b0",
+            "surface-container": "#efeeeb",
+            "surface-tint": "#964460",
+            "on-secondary-fixed-variant": "#71545b",
+            "surface-container-high": "#e9e8e5",
+            "surface-dim": "#dadad7",
+            "primary-container": "#fc98b7",
+            "inverse-primary": "#fc98b7",
+            "error-dim": "#6b0221",
+            "on-surface": "#313331",
+            "error-container": "#f97386",
+            "on-surface-variant": "#5e5f5d",
+            "secondary-dim": "#684b53",
+            "inverse-surface": "#0d0e0e",
+            "tertiary-container": "#fad193",
+            "inverse-on-surface": "#9d9d9b",
+            "surface-container-low": "#f5f3f1",
+            "on-error-container": "#6e0523",
+            "on-background": "#313331",
+            "tertiary": "#785a27",
+            "primary": "#964460",
+            "on-secondary-fixed": "#52383f",
+            "on-secondary-container": "#664a52",
+            "tertiary-fixed": "#fad193",
+            "secondary-fixed-dim": "#f1cbd4",
+            "on-primary-fixed": "#42011f",
+            "secondary-container": "#ffd9e2",
+            "outline": "#7a7b79",
+            "secondary-fixed": "#ffd9e2",
+            "surface": "#fbf9f7",
+            "on-primary": "#fff7f7",
+            "on-secondary": "#fff7f7",
+            "tertiary-dim": "#6a4e1d",
+            "tertiary-fixed-dim": "#ebc386",
+            "background": "#fbf9f7",
+            "surface-variant": "#e2e3e0",
+            "on-error": "#fff7f7",
+            "primary-fixed-dim": "#ec8baa",
+            "on-tertiary-container": "#614615",
+            "primary-fixed": "#fc98b7",
+            "on-primary-container": "#611a36",
+            // Boutique operational accents
+            "atelier-wine": "#7A2E4A",
+            "atelier-gold": "#C9A46A",
+            "op-available": "#2E7D5B",
+            "op-hold": "#B7791F",
+            "op-rented": "#6B4BA8",
+            "op-overdue": "#C0392B"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Be Vietnam Pro", "sans-serif"],
+            "display": ["Be Vietnam Pro", "sans-serif"],
+            "body": ["Be Vietnam Pro", "sans-serif"],
+            "label": ["Public Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .signature-cursive {
+      font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
+    }
+    /* Touch optimization */
+    button, input, select {
+      touch-action: manipulation;
+    }
+    /* Custom scrollbar for horizontal checklist cards */
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1ebd840;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b1b2b0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-full font-body antialiased flex flex-col pb-28 text-on-surface bg-background select-none">
+<!-- ================= TOP OPERATIONAL BAR (SHARED COMPONENT) ================= -->
+<header class="sticky top-0 z-40 w-full px-6 py-3 flex items-center justify-between gap-4 bg-surface-container-lowest dark:bg-surface-dim border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center font-headline font-bold text-lg shadow-sm">
+          A
+        </span>
+<div>
+<span class="font-headline text-lg font-bold tracking-tight text-primary dark:text-inverse-primary block leading-tight">Atelier Ops</span>
+<span class="text-[11px] font-label font-medium text-on-surface-variant flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-600 inline-block animate-pulse"></span>
+            Cửa hàng chính</span>
+</div>
+</div>
+<!-- Navigation links (Desktop & Landscape Tablets) -->
+<nav class="hidden md:flex items-center gap-5 ml-4 font-headline text-sm font-medium">
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-on-surface transition-colors pb-1" href="#">Đơn thuê</a>
+<a class="text-primary dark:text-inverse-primary font-semibold border-b-2 border-primary dark:border-inverse-primary pb-1" href="#">Bàn giao</a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-on-surface transition-colors pb-1" href="#">Kho hàng</a>
+</nav>
+</div>
+<!-- Staff context & quick actions -->
+<div class="flex items-center gap-3">
+<div class="hidden sm:flex flex-col text-right pr-2 border-r border-outline-variant/60">
+<span class="text-xs font-semibold text-on-surface">Nguyễn Văn Hưng</span>
+<span class="text-[11px] text-on-surface-variant">Nhân viên kho · Ca sáng</span>
+</div>
+<!-- Secondary Action: Quét mã QR -->
+<button class="min-h-[48px] px-3.5 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-headline font-medium text-xs flex items-center gap-1.5 active:scale-[0.98] transition-transform" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="hidden sm:inline">Quét mã QR</span>
+</button>
+<!-- Trailing Action: Print & options -->
+<button aria-label="In biên bản" class="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface-variant active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[22px]" data-icon="print">print</span>
+</button>
+<button aria-label="Tùy chọn khác" class="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface-variant active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[22px]" data-icon="more_vert">more_vert</span>
+</button>
+<!-- Trailing Primary Action: Hoàn tất bàn giao -->
+<button class="min-h-[48px] px-4 py-2 rounded-lg bg-primary hover:bg-primary-dim text-on-primary font-headline font-semibold text-xs tracking-wide shadow-sm flex items-center gap-2 active:scale-[0.98] transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="done_all">done_all</span>
+<span>Hoàn tất bàn giao</span>
+</button>
+<img alt="Ảnh đại diện nhân viên vận hành" class="w-10 h-10 rounded-full border border-outline-variant object-cover shadow-inner" data-alt="Ảnh đại diện nhân viên vận hành nam với nụ cười thân thiện, mặc áo sơ mi đen tối giản lịch thiệp phong cách boutique áo cưới sang trọng cao cấp." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf6z-ykmv1sCIzAgduJQl-Edom2S9YKIGDASTwHOPzvPbMc9P9JR-EVDJCU2D9rYC8w9af0df646u5j2EAqfegPfPebV8sN2EJRIzFtEnxHRItkoKVVC49ck_XVFw17vW-lCUPvAOscumLbwh3KuzbbiWgI3A9i4vF7VTH2IV0TX1Zl63k4AsFld3zbK-J9g418yzlvQcDuxrLEZwCCEvAKNoGIKUqItNv27vDyeXeEIfmEVgE551mmHsrwaKcs2ybDnKLvY10mzw"/>
+</div>
+</header>
+<!-- ================= SUB-HEADER: ORDER METADATA & PROGRESS ================= -->
+<section class="bg-surface-container-lowest px-6 py-3.5 border-b border-outline-variant/60 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<!-- Order identity -->
+<div class="flex flex-wrap items-center gap-3">
+<a class="inline-flex items-center text-on-surface-variant hover:text-primary transition-colors text-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[18px] mr-1" data-icon="arrow_back">arrow_back</span>
+          Danh sách
+        </a>
+<span class="text-outline-variant">/</span>
+<h1 class="text-base sm:text-lg font-headline font-bold text-on-surface flex items-center gap-2">
+<span>Bàn giao · DT-2611-0042 · Lê Hoàng Nam</span>
+</h1>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-op-hold border border-amber-300">
+<span class="w-1.5 h-1.5 rounded-full bg-op-hold animate-ping"></span>
+          Đang bàn giao tại quầy
+        </span>
+</div>
+<!-- Progress Summary & Tablet Actions -->
+<div class="flex items-center flex-wrap gap-4">
+<!-- Visual Progress Bar -->
+<div class="flex items-center gap-3 min-w-[220px]">
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1 text-xs">
+<span class="font-headline font-semibold text-primary">Tiến độ kiểm đếm</span>
+<span class="font-label font-bold text-on-surface">2/3 món đã bàn giao (66%)</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 66%;"></div>
+</div>
+</div>
+</div>
+<!-- Action buttons: min 48px target -->
+<div class="flex items-center gap-2">
+<button class="min-h-[48px] px-3.5 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-headline font-medium text-xs flex items-center gap-1.5 active:scale-[0.98] transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="save">save</span>
+<span>Lưu tiến trình</span>
+</button>
+<button class="min-h-[48px] px-3.5 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline font-medium text-xs flex items-center gap-1.5 active:scale-[0.98] transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="switch_account">switch_account</span>
+<span>Đổi người nhận</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= ERROR BANNER / ALERT TOAST (MANDATORY REQUIREMENT) ================= -->
+<aside aria-label="Cảnh báo kiểm tra mã hàng" class="max-w-7xl w-full mx-auto px-4 sm:px-6 pt-4">
+<div class="rounded-lg bg-red-50 border-2 border-red-300 p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 text-red-700 animate-pulse-once">
+<div class="flex items-start md:items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-red-600 text-2xl" data-icon="warning">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-sm text-red-900 tracking-wide uppercase">Cảnh báo sai lệch mã món:</span>
+<span class="px-2 py-0.5 rounded bg-red-200 text-red-900 font-mono text-xs font-bold">VE-033</span>
+</div>
+<p class="text-xs sm:text-sm font-medium text-red-800 mt-0.5">
+            Món <strong class="font-bold underline">VE-033</strong> không thuộc đơn này – đang thuộc đơn <strong class="font-bold text-red-950">DT-0058</strong> (Khách: Trần Mai Linh). Vui lòng trả về giá kiểm kê!
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0 self-end md:self-auto">
+<button class="min-h-[44px] px-3 py-1.5 rounded-lg bg-red-700 hover:bg-red-800 text-white font-headline text-xs font-semibold shadow-sm flex items-center gap-1 active:scale-95 transition-all" type="button">
+<span>Xem chi tiết đơn DT-0058</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="open_in_new">open_in_new</span>
+</button>
+<button aria-label="Đóng cảnh báo" class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-red-700 hover:bg-red-100 active:scale-95 transition-colors" title="Đóng cảnh báo" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- ================= MAIN CONTENT CANVAS ================= -->
+<main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 flex flex-col gap-6">
+<!-- Section Heading -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]" data-icon="checklist_rtl">checklist_rtl</span>
+<h2 class="font-headline font-bold text-base sm:text-lg text-on-surface">Danh sách món bàn giao &amp; Checklist kiểm định</h2>
+</div>
+<span class="text-xs font-label text-on-surface-variant">Chạm để đánh dấu từng mục · Chuẩn tối thiểu 2 ảnh</span>
+</div>
+<!-- ITEM CARDS GRID (TOUCH-FIRST CHECKLISTS) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+<!-- ================= CARD 1: ĐÃ BÀN GIAO (BỘ TUXEDO) ================= -->
+<article class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 shadow-sm p-4 sm:p-5 flex flex-col justify-between transition-all hover:border-outline">
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between gap-2 pb-3 border-b border-surface-container">
+<div class="flex items-center gap-3">
+<img alt="Bộ Tuxedo Classic Black" class="w-16 h-16 rounded-lg object-cover border border-outline-variant shadow-sm" data-alt="Bộ tuxedo đen classic chuẩn may đo sang trọng trưng bày trên mannequin phòng fitting phong cách boutique dạ hội cao cấp với ve áo lụa bóng satin." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZILNzN1zrPm1BsVHAPX_ErYgCGK7CeWFNC9YY-C2q6uVPLkqXsx_o1z07AsthespwJvVeCl567z89C0hBbYeulxWUgmLNx99kaavfXmbEsZQM1lh9xEuP4bwkb4FgpZ7YTSbzZdf9K-8sbaSrdF2L2ZhfoTyb7BVbytPSVm53GV4n36HM1e18wmDQFnPtE8qD_oW35Jsd9-cCjFXjJ2_ABSnW0r_hRudZwAM6nBwbj27PwfvjIOAIucuGIHLxJfMSGj3RbIGrBlY"/>
+<div>
+<span class="inline-block text-[11px] font-mono font-bold uppercase tracking-wider text-primary bg-primary-container/30 px-2 py-0.5 rounded">
+                  TX-004 · Nam
+                </span>
+<h3 class="font-headline font-bold text-sm text-on-surface mt-1 leading-snug">Bộ Tuxedo Classic Black</h3>
+<p class="text-xs text-on-surface-variant font-medium">Kích cỡ: Size 50 (L) · Kèm nơ lụa</p>
+</div>
+</div>
+<!-- Status Chip -->
+<span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-op-available border border-emerald-300">
+<span class="material-symbols-outlined text-[15px]" data-icon="check_circle">check_circle</span>
+              Đã bàn giao 10:05
+            </span>
+</div>
+<!-- Checklist Rows (Touch min-48px) -->
+<div class="py-3.5 space-y-1.5">
+<p class="text-[11px] font-headline font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Hạng mục kiểm định</p>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đúng mã QR</span>
+<span class="text-on-surface-variant font-mono text-[11px] ml-1">(TX-004-01)</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="verified">verified</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đã vệ sinh</span>
+<span class="text-on-surface-variant text-[11px] block sm:inline sm:ml-1">(Hấp sấy nhiệt cao 04/11)</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="local_laundry_service">local_laundry_service</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đủ phụ kiện:</span>
+<span class="text-on-surface-variant text-[11px] ml-1">áo, quần, cà vạt, nơ, kẹp</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="inventory_2">inventory_2</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đã kiểm tra tình trạng</span>
+<span class="text-on-surface-variant text-[11px] block">(Không lỗi vải, nút cài đủ)</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="task_alt">task_alt</span>
+</label>
+</div>
+<!-- Photo Capture Section -->
+<div class="mt-2 pt-3 border-t border-surface-container">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-headline font-semibold text-on-surface">Ảnh trước thuê (tối thiểu 2)</span>
+<span class="font-label text-op-available font-bold text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="cloud_done">cloud_done</span> 2/2 ảnh (10:04)
+              </span>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="relative rounded-lg overflow-hidden border border-outline-variant aspect-[4/3] group">
+<img alt="Ảnh vạt áo" class="w-full h-full object-cover" data-alt="Chụp chi tiết vạt áo vest tuxedo và khuy cài áo màu đen bóng sắc nét dưới ánh đèn kiểm tra chất lượng của xưởng may cưới." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARPRopjwMI8bQmb-fcFwCCw1BXOtT_8NBAVfcE9hflIpMMd6dM6t-eXv3ED9RsPTMxhKhjEKVKF_UWeAskeU48dnjSAfW1Z8GgQJ90EKbi5dNrCuhFrlO8ALAPRS7MeIgBP0H33rlQz_69I-ors8hRJVeGfo5NhoZmArwgIkMRqdfDTB4YGRG9sPkRQgNYt7HVaVnpZSZIEn-uDxxEvmeME5hpuh_s3XjIf8i7FzjQhu9AMSzk5Ve1eiOiZh-3g9XwdeQs8VoH8iA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-1.5">
+<span class="text-[10px] text-white font-medium">Ảnh 1: Vạt áo &amp; khuy</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-outline-variant aspect-[4/3] group">
+<img alt="Ảnh khuy cổ" class="w-full h-full object-cover" data-alt="Chụp chi tiết khuy cổ áo tuxedo và đường may viền nẹp cổ phẳng phiu không tì vết tại bàn kiểm hàng của cửa hàng cho thuê lễ phục." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVnaieZCLz1P0BpXY0Z0TLIH2loFqK3Nnk4kscg4E2yIATtafMoFcxMoBRzvz9qONB6WpGrcwOOGqUFYpM1RPpcfy0kVZkj2ReR5g7-TSL-ZEygGelrbv60iFN2i5LJM5TYxFXJAAP3hAu8z9IiiROEbggHdRAhlirh-jBWcYDJxcgW5-R27IC3SgM-14V42_VnYKyJ8SkhHtXGDl0D3o66P286CDYGrGJAK7gQeFhDkJ8XeHsu1jznzay5WUFjNGZE3Y_iag9hPw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-1.5">
+<span class="text-[10px] text-white font-medium">Ảnh 2: Khuy cổ &amp; lót</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-xs text-on-surface-variant">
+<span class="flex items-center gap-1 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[16px] text-op-available" data-icon="check">check</span>
+            Sẵn sàng giao
+          </span>
+<button class="text-primary font-headline font-medium hover:underline min-h-[36px] flex items-center" type="button">
+            Xem nhật ký
+          </button>
+</div>
+</article>
+<!-- ================= CARD 2: ĐÃ BÀN GIAO (GIÀY TÂY) ================= -->
+<article class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 shadow-sm p-4 sm:p-5 flex flex-col justify-between transition-all hover:border-outline">
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between gap-2 pb-3 border-b border-surface-container">
+<div class="flex items-center gap-3">
+<img alt="Giày Tây Oxford Da Bò" class="w-16 h-16 rounded-lg object-cover border border-outline-variant shadow-sm" data-alt="Đôi giày tây Oxford màu đen bằng da bò cao cấp đánh bóng loáng, đặt trong khay nỉ nhung tại studio thời trang cưới sang trọng." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnEzCvODj2lQ5dK3m49l97jSm8D65WEExnFgqf-wTjPNUXQ_uzuGILPZJmXO5JrVmaZObHzSbUM3BcvLXQJVfTmYHeR-YQIhnj0xOKLRJcjTm6RlCynYerFaEIfmWpT7mFUenhqqocu0GmLFCYEpEFbjYG8ikh0f4SkJBmZInKhCa98wLYxYdazjHd3bydVVDMy7GyRInQ2rnHVhAhyV9KnR54LomwfyV1QVqdImO8bqG3gZh3DZu9oE1Uc28RYqD3AiF50SoN9-o"/>
+<div>
+<span class="inline-block text-[11px] font-mono font-bold uppercase tracking-wider text-primary bg-primary-container/30 px-2 py-0.5 rounded">
+                  GY-012 · Đen
+                </span>
+<h3 class="font-headline font-bold text-sm text-on-surface mt-1 leading-snug">Giày Tây Oxford Da Bò</h3>
+<p class="text-xs text-on-surface-variant font-medium">Kích cỡ: Size 42 · Phom chuẩn</p>
+</div>
+</div>
+<!-- Status Chip -->
+<span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-op-available border border-emerald-300">
+<span class="material-symbols-outlined text-[15px]" data-icon="check_circle">check_circle</span>
+              Đã bàn giao 10:08
+            </span>
+</div>
+<!-- Checklist Rows (Touch min-48px) -->
+<div class="py-3.5 space-y-1.5">
+<p class="text-[11px] font-headline font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Hạng mục kiểm định</p>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đúng mã QR</span>
+<span class="text-on-surface-variant font-mono text-[11px] ml-1">(GY-012-02)</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="verified">verified</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đã vệ sinh</span>
+<span class="text-on-surface-variant text-[11px] ml-1">(Đánh xi &amp; khử khuẩn)</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="sanitizer">sanitizer</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đủ phụ kiện:</span>
+<span class="text-on-surface-variant text-[11px] ml-1">hộp bảo quản, đón gót</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="inventory_2">inventory_2</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-200 cursor-pointer active:scale-[0.99] transition-transform">
+<input checked="" class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đã kiểm tra tình trạng</span>
+<span class="text-on-surface-variant text-[11px] block">(Đế nguyên vẹn, da bóng)</span>
+</div>
+<span class="material-symbols-outlined text-op-available text-[18px]" data-icon="task_alt">task_alt</span>
+</label>
+</div>
+<!-- Photo Capture Section -->
+<div class="mt-2 pt-3 border-t border-surface-container">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-headline font-semibold text-on-surface">Ảnh trước thuê (tối thiểu 2)</span>
+<span class="font-label text-op-available font-bold text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="cloud_done">cloud_done</span> 2/2 ảnh (10:07)
+              </span>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="relative rounded-lg overflow-hidden border border-outline-variant aspect-[4/3] group">
+<img alt="Ảnh mũi giày" class="w-full h-full object-cover" data-alt="Chụp cận cảnh mũi giày tây oxford da bóng mịn màu đen không một vết xước tại khu vực kiểm định hàng xuất kho boutique." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0aGNH9BsPk0z3Lu37V1QIXmLyY7IP7pvPSsJOWFh9-B2ZDkpy3SqQLN81g1xDsuFLDL1svwQa795_pWgWAOp_g2sbfvQV0f_U94n6Y2ipSf6Cmk9Xx3yPc-SeWOyzr-5pJdgbg21sVyUdJieqmn0Ll4p9-ZBdAAtU-5DW-VHPniVu9ZC-7YZ7HeFfBMwd2Wcnvoz4E0YpLsAWvfidmX0iHjNWdEnpoNlTDNkpa_VO13bqUb_IfQrzdnzNKoY_lO_-r4r8EMsevUQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-1.5">
+<span class="text-[10px] text-white font-medium">Ảnh 1: Mũi giày</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-outline-variant aspect-[4/3] group">
+<img alt="Ảnh đế giày" class="w-full h-full object-cover" data-alt="Chụp cận cảnh mặt đế giày tây cao cấp sạch bóng không dính bụi đất, thể hiện tình trạng nguyên vẹn trước khi bàn giao khách." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr5E242QarNrGTWYdxDauX93jG0PDuwVcRywPNXQefK1LkUv7z3K9oJlEmA9dp9AT-COTm2R1y1Bcp-FR-hysngTnNLS9PhHL8PRieYpku7klGp0_RNIVSKsGEDw7mTDs-YAVwMpRKth0XwcaW2GlkAvv7-xEdI1DVQbQ5xsEikZ9jLjSE8zj7rT6s00thdK3GLKDC5TPz7Awfj2jnT6_H4DxtvK9o3aLD5SO3rgTElYA-9d6bYYBV7lN6Mdj45IemN7l0SElhIfs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-1.5">
+<span class="text-[10px] text-white font-medium">Ảnh 2: Mặt đế giày</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-xs text-on-surface-variant">
+<span class="flex items-center gap-1 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[16px] text-op-available" data-icon="check">check</span>
+            Sẵn sàng giao
+          </span>
+<button class="text-primary font-headline font-medium hover:underline min-h-[36px] flex items-center" type="button">
+            Xem nhật ký
+          </button>
+</div>
+</article>
+<!-- ================= CARD 3: ĐANG KIỂM TRA / CHỜ QUÉT ================= -->
+<article class="bg-surface-container-lowest rounded-xl border-2 border-amber-300 shadow-md p-4 sm:p-5 flex flex-col justify-between transition-all relative">
+<!-- Urgent Tag badge -->
+<div class="absolute -top-3 right-4 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+          ĐANG THAO TÁC
+        </div>
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between gap-2 pb-3 border-b border-surface-container">
+<div class="flex items-center gap-3">
+<img alt="Khăn Cài Túi &amp; Kẹp Cà Vạt" class="w-16 h-16 rounded-lg object-cover border border-outline-variant shadow-sm" data-alt="Hộp nhung đỏ chứa khăn cài túi lụa cao cấp họa tiết trang nhã kèm kẹp cà vạt mạ vàng óng ánh cho lễ cưới chú rể." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfdtmv97uR_zYr--xvKVg64iEc2MM1I_O8M7ouzBoffqwG_faAIWCID2c9LI1dm1VqE08aELLgsH08kPjDq1tZtLHYEzHrINp7iRLt3DVg2VdNIjwyNicFmiGDTLtvdoHuuUSSBUAbaWuHWzgh1hKe9VNrKHIE4Pn-GjM7tACwXQ1PexyG8fPXhq-AfhRBZVtNJzmzXWtMVsIrhz6IdZIld9AU_3rFk4nK0_bY9Rd-ye0lTyW62cDlxcVKVOjcREZT15ruPgZ6n5Q"/>
+<div>
+<span class="inline-block text-[11px] font-mono font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded">
+                  PK-088 · Phụ kiện
+                </span>
+<h3 class="font-headline font-bold text-sm text-on-surface mt-1 leading-snug">Khăn Cài Túi &amp; Kẹp Mạ Vàng</h3>
+<p class="text-xs text-on-surface-variant font-medium">Hộp nhung đen · 02 món trọn bộ</p>
+</div>
+</div>
+<!-- Status Chip -->
+<span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+<span class="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
+              Chờ quét
+            </span>
+</div>
+<!-- Checklist Rows (Interactive Touch Targets min-48px) -->
+<div class="py-3.5 space-y-1.5">
+<p class="text-[11px] font-headline font-semibold text-amber-900 uppercase tracking-wider mb-2 flex items-center justify-between">
+<span>Hạng mục kiểm định</span>
+<span class="text-error font-medium normal-case text-[11px]">Cần hoàn tất để ký nhận</span>
+</p>
+<!-- Item 1: Unchecked with Quét ngay CTA -->
+<div class="flex items-center justify-between gap-2 min-h-[48px] px-3 py-2 rounded-lg bg-surface-container-low border border-dashed border-amber-400">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" id="chk-qr-3" type="checkbox"/>
+<label class="text-xs font-semibold text-on-surface cursor-pointer" for="chk-qr-3">
+                  Đúng mã QR
+                  <span class="text-amber-800 font-normal block sm:inline text-[11px] sm:ml-1">(Chờ quét mã phụ kiện...)</span>
+</label>
+</div>
+<button class="min-h-[40px] px-3 rounded bg-amber-600 hover:bg-amber-700 text-white font-headline text-xs font-semibold shadow-sm flex items-center gap-1 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span>Quét ngay</span>
+</button>
+</div>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/60 cursor-pointer hover:bg-surface-container-low active:scale-[0.99] transition-transform">
+<input class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đã vệ sinh</span>
+<span class="text-on-surface-variant text-[11px] ml-1">(Ủi phẳng &amp; khử trùng hộp)</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[18px]" data-icon="circle">circle</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/60 cursor-pointer hover:bg-surface-container-low active:scale-[0.99] transition-transform">
+<input class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đủ phụ kiện:</span>
+<span class="text-on-surface-variant text-[11px] ml-1">hộp nhung, khăn lụa, kẹp vàng</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[18px]" data-icon="circle">circle</span>
+</label>
+<label class="flex items-center gap-3 min-h-[48px] px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/60 cursor-pointer hover:bg-surface-container-low active:scale-[0.99] transition-transform">
+<input class="w-5 h-5 text-primary rounded border-outline focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex-1 text-xs">
+<span class="font-semibold text-on-surface">Đã kiểm tra tình trạng</span>
+<span class="text-on-surface-variant text-[11px] block">(Không xước mạ vàng, khăn không vết ố)</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[18px]" data-icon="circle">circle</span>
+</label>
+</div>
+<!-- Photo Capture Section (Slot 1 Taken, Slot 2 Pending) -->
+<div class="mt-2 pt-3 border-t border-surface-container">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-headline font-semibold text-on-surface">Ảnh trước thuê (tối thiểu 2)</span>
+<span class="font-label text-amber-700 font-bold text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending">pending</span> 1/2 ảnh đã lưu
+              </span>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<!-- Slot 1 taken -->
+<div class="relative rounded-lg overflow-hidden border border-outline-variant aspect-[4/3] group">
+<img alt="Ảnh phụ kiện" class="w-full h-full object-cover" data-alt="Chụp hộp nhung đựng khăn cài túi lụa và kẹp mạ vàng đặt trên bàn gỗ tiếp khách boutique thời trang cưới." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIPL54s1FAKmkYmAHNOIDmKI9gLFX0FA3wt_LLeX01gMWCJPF-Mq1VoM5exJFOSUN99XyShp18Yf9p2flBezJnjHITcjfRsMDLnGu9wGUKIONDYMtdy-8vBR6bwtqhBGr0iPY7sq79AdFiwCHvqHoLpOd3UyKO56T07DTb-TxsLuqMeFdlxG2yVnRiwlc8BSlStMXHmoRX3tAH5GfW2rDjrdDOPXeK4Gv8uJoXQT4nf-G7voPD5J9-7n9NDDM7Y4bKYMSWsPy8BAc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-1.5">
+<span class="text-[10px] text-white font-medium">Ảnh 1: Hộp mở nắp</span>
+</div>
+</div>
+<!-- Slot 2 Pending Touch Button -->
+<button class="aspect-[4/3] rounded-lg border-2 border-dashed border-primary/60 bg-primary/5 hover:bg-primary/10 flex flex-col items-center justify-center gap-1 p-2 active:scale-95 transition-transform group text-primary" type="button">
+<div class="w-9 h-9 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl text-primary" data-icon="photo_camera">photo_camera</span>
+</div>
+<span class="text-xs font-headline font-bold">+ Chụp góc 2</span>
+<span class="text-[10px] text-on-surface-variant">Chạm để mở camera</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-xs">
+<span class="flex items-center gap-1 font-mono text-[11px] text-amber-800">
+<span class="material-symbols-outlined text-[16px] text-amber-600" data-icon="schedule">schedule</span>
+            Cần 1 ảnh + 4 tích
+          </span>
+<button class="px-3 py-1.5 rounded bg-primary text-white font-headline text-xs font-semibold hover:bg-primary-dim transition-colors min-h-[36px]" type="button">
+            Xác thực nhanh
+          </button>
+</div>
+</article>
+</div>
+<!-- ================= BOTTOM SECTION: HANDOVER, SIGNATURE & DEPOSIT ================= -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-2">
+<!-- LEFT COL: RECIPIENT & SIGNATURE PAD (7 COLS) -->
+<div class="lg:col-span-7 flex flex-col gap-5">
+<!-- 1. Recipient Verification Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-4 sm:p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]" data-icon="badge">badge</span>
+<h3 class="font-headline font-bold text-sm sm:text-base text-on-surface">Xác thực người nhận thực tế</h3>
+</div>
+<span class="text-xs font-label text-on-surface-variant font-medium">Xác minh người nhận · chỉ lưu ảnh giấy tờ khi khách đồng ý (tự xóa sau 30 ngày)</span>
+</div>
+<div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+<!-- Toggle option 1: Chính chủ -->
+<label class="flex items-start gap-3 p-3.5 rounded-lg border-2 border-primary bg-primary/5 cursor-pointer min-h-[52px]">
+<input checked="" class="mt-0.5 w-4 h-4 text-primary focus:ring-primary" name="recipient_type" type="radio"/>
+<div>
+<span class="text-xs font-headline font-bold text-primary block">Chính chủ nhận hàng</span>
+<span class="text-xs text-on-surface font-semibold mt-0.5 block">Lê Hoàng Nam</span>
+<span class="text-[11px] text-on-surface-variant font-mono">CCCD: 00109500**** · 0918.234.567</span>
+</div>
+</label>
+<!-- Toggle option 2: Ủy quyền -->
+<label class="flex items-start gap-3 p-3.5 rounded-lg border border-outline-variant/70 bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer min-h-[52px]">
+<input class="mt-0.5 w-4 h-4 text-primary focus:ring-primary" name="recipient_type" type="radio"/>
+<div>
+<span class="text-xs font-headline font-medium text-on-surface block">Người được ủy quyền</span>
+<span class="text-[11px] text-on-surface-variant mt-0.5 block">Cần tải ảnh giấy ủy quyền hoặc văn bản xác thực</span>
+</div>
+</label>
+</div>
+</div>
+<!-- 2. Customer Signature Pad -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]" data-icon="draw">draw</span>
+<h3 class="font-headline font-bold text-sm sm:text-base text-on-surface">Khách ký xác nhận đã nhận</h3>
+</div>
+<span class="text-[11px] font-mono text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">05/11/2026 10:12:44</span>
+</div>
+<!-- Signature Canvas Container -->
+<div class="mt-4 relative bg-surface-container-low rounded-lg border border-dashed border-outline p-4 min-h-[140px] flex items-center justify-center overflow-hidden">
+<!-- Watermark text -->
+<span class="absolute top-2 left-3 text-[10px] uppercase font-bold text-on-surface-variant/40 tracking-widest pointer-events-none select-none">
+                ATELIER OPS · DIGITAL SIGNATURE CONFIRMATION
+              </span>
+<!-- Simulated handwriting signature -->
+<div class="signature-cursive text-3xl sm:text-4xl text-on-surface text-center transform -rotate-2 select-none pointer-events-none">
+                Lê Hoàng Nam
+              </div>
+<!-- Customer Full Name Footer -->
+<div class="absolute bottom-2 right-3 text-[11px] text-on-surface-variant font-medium">
+                Ký bởi: Lê Hoàng Nam (Chính chủ)
+              </div>
+</div>
+</div>
+<!-- Signature Controls -->
+<div class="mt-4 pt-3 flex items-center justify-between gap-3 border-t border-surface-container">
+<span class="text-xs text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-op-available" data-icon="verified_user">verified_user</span>
+              Chữ ký điện tử có hiệu lực bàn giao
+            </span>
+<div class="flex items-center gap-2">
+<button class="min-h-[44px] px-3 py-1.5 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-headline font-medium text-xs flex items-center gap-1 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="refresh">refresh</span>
+<span>Ký lại</span>
+</button>
+<button class="min-h-[44px] px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-headline font-semibold text-xs flex items-center gap-1.5 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="fingerprint">fingerprint</span>
+<span>Xác thực CCCD</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COL: DEPOSIT COLLECTION & FINAL CTA (5 COLS) -->
+<div class="lg:col-span-5 flex flex-col justify-between gap-5">
+<!-- Deposit Collection Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-4 sm:p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-surface-container">
+<div>
+<span class="text-xs font-headline font-semibold text-primary uppercase tracking-wider">Tiền cọc giữ đồ</span>
+<h3 class="font-headline font-bold text-xl sm:text-2xl text-on-surface tabular-nums">5.000.000đ</h3>
+<p class="text-xs text-on-surface-variant font-medium">(Năm triệu đồng chẵn)</p>
+</div>
+<span class="px-2.5 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold font-label flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="lock">lock</span>
+              Cọc bắt buộc
+            </span>
+</div>
+<!-- Payment Method Selector Tabs -->
+<div class="mt-4 grid grid-cols-2 gap-2 p-1 bg-surface-container rounded-lg">
+<button class="min-h-[44px] py-2 rounded-md font-headline text-xs font-medium text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span>
+<span>Tiền mặt</span>
+</button>
+<button class="min-h-[44px] py-2 rounded-md bg-surface-container-lowest shadow-sm font-headline text-xs font-bold text-primary transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="qr_code_2">qr_code_2</span>
+<span>Chuyển khoản (VietQR)</span>
+</button>
+</div>
+<!-- VietQR Active Mode Container -->
+<div class="mt-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/60 flex flex-col items-center">
+<div class="flex items-center justify-between w-full mb-3 text-xs">
+<span class="font-semibold text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
+                VietQR Pro 24/7
+              </span>
+<span class="font-mono text-on-surface-variant text-[11px]">TECHCOMBANK</span>
+</div>
+<!-- Stylized QR Display Canvas / Code Box -->
+<div class="bg-white p-3 rounded-lg border border-outline-variant shadow-sm flex flex-col items-center">
+<!-- Banking SVG Stylized Mock -->
+<svg class="w-36 h-36" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<!-- QR Position Locators -->
+<rect fill="none" height="26" rx="4" stroke="#7A2E4A" stroke-width="4" width="26" x="5" y="5"></rect>
+<rect fill="#7A2E4A" height="14" rx="2" width="14" x="11" y="11"></rect>
+<rect fill="none" height="26" rx="4" stroke="#7A2E4A" stroke-width="4" width="26" x="69" y="5"></rect>
+<rect fill="#7A2E4A" height="14" rx="2" width="14" x="75" y="11"></rect>
+<rect fill="none" height="26" rx="4" stroke="#7A2E4A" stroke-width="4" width="26" x="5" y="69"></rect>
+<rect fill="#7A2E4A" height="14" rx="2" width="14" x="11" y="75"></rect>
+<!-- Matrix Dots -->
+<circle cx="42" cy="12" fill="#313331" r="2.5"></circle>
+<circle cx="50" cy="12" fill="#313331" r="2.5"></circle>
+<circle cx="58" cy="12" fill="#313331" r="2.5"></circle>
+<circle cx="42" cy="20" fill="#313331" r="2.5"></circle>
+<circle cx="58" cy="20" fill="#313331" r="2.5"></circle>
+<circle cx="50" cy="28" fill="#313331" r="2.5"></circle>
+<circle cx="12" cy="42" fill="#313331" r="2.5"></circle>
+<circle cx="20" cy="42" fill="#313331" r="2.5"></circle>
+<circle cx="28" cy="42" fill="#313331" r="2.5"></circle>
+<circle cx="12" cy="50" fill="#313331" r="2.5"></circle>
+<circle cx="28" cy="50" fill="#313331" r="2.5"></circle>
+<circle cx="20" cy="58" fill="#313331" r="2.5"></circle>
+<circle cx="72" cy="42" fill="#313331" r="2.5"></circle>
+<circle cx="80" cy="42" fill="#313331" r="2.5"></circle>
+<circle cx="88" cy="42" fill="#313331" r="2.5"></circle>
+<circle cx="72" cy="58" fill="#313331" r="2.5"></circle>
+<circle cx="88" cy="58" fill="#313331" r="2.5"></circle>
+<circle cx="42" cy="72" fill="#313331" r="2.5"></circle>
+<circle cx="50" cy="72" fill="#313331" r="2.5"></circle>
+<circle cx="58" cy="72" fill="#313331" r="2.5"></circle>
+<circle cx="42" cy="80" fill="#313331" r="2.5"></circle>
+<circle cx="50" cy="88" fill="#313331" r="2.5"></circle>
+<circle cx="78" cy="78" fill="#7A2E4A" r="3"></circle>
+<circle cx="86" cy="86" fill="#7A2E4A" r="3"></circle>
+<!-- Center Logo Shield -->
+<circle cx="50" cy="50" fill="#7A2E4A" r="10"></circle>
+<text fill="white" font-family="'Be Vietnam Pro', sans-serif" font-size="9" font-weight="bold" text-anchor="middle" x="50" y="54">A</text>
+</svg>
+<span class="text-[11px] font-mono font-bold text-on-surface mt-1">Nội dung: DT0042-C01</span>
+</div>
+<!-- Transfer Account details -->
+<div class="mt-3 text-center text-xs space-y-0.5">
+<p class="font-bold text-on-surface">ATELIER OPS - TECHCOMBANK</p>
+<p class="text-on-surface-variant font-mono text-[11px]">STK: 1903.8888.6666 · Số tiền: 5.000.000đ</p>
+</div>
+<!-- Status badge: Paid & Auto-matched -->
+<div class="mt-3.5 w-full p-2.5 rounded-lg bg-emerald-50 border border-emerald-300 text-op-available flex items-center justify-center gap-2 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+<span>Đã nhận biến động số dư 5.000.000đ (Tự động khớp lệnh)</span>
+</div>
+</div>
+</div>
+<!-- Sticky Final Handover Action Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-surface-variant">Tổng cọc đã thu:</span>
+<span class="font-bold text-emerald-700 text-sm">5.000.000đ (Đủ)</span>
+</div>
+<!-- PRIMARY FINAL CTA BUTTON (Burgundy min-height 54px full target) -->
+<button class="w-full min-h-[54px] px-6 py-3.5 rounded-xl bg-atelier-wine hover:bg-primary-dim text-white font-headline font-bold text-base tracking-wide shadow-md flex items-center justify-center gap-3 active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[24px]" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span>Hoàn tất bàn giao</span>
+</button>
+<p class="text-center text-[11px] text-on-surface-variant">
+            Biên bản điện tử và tin nhắn xác nhận Zalo OA sẽ tự động gửi tới khách sau khi bấm hoàn tất.
+          </p>
+</div>
+</div>
+</section>
+</main>
+<!-- ================= FLOATING ACTION BUTTON (QR SCANNER) ================= -->
+<!-- 56px height, high elevation, high-touch target for tablet staff operations -->
+<aside class="fixed right-6 bottom-20 z-40">
+<button aria-label="Quét mã QR món hàng" class="h-14 px-5 rounded-full bg-atelier-wine hover:bg-primary-dim text-white shadow-xl hover:shadow-2xl flex items-center gap-3 active:scale-95 transition-all border-2 border-white/20" type="button">
+<div class="relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+</div>
+<span class="font-headline font-bold text-sm tracking-wide pr-1">Quét QR</span>
+</button>
+</aside>
+<!-- ================= BOTTOM NAV BAR (TABLET OPERATIONAL BAR - SHARED COMPONENT) ================= -->
+<nav aria-label="Điều hướng phân hệ" class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 max-w-full bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-md dark:shadow-none">
+<!-- Tab 1: Tổng quan -->
+<a class="flex flex-col items-center justify-center min-h-[48px] text-on-surface-variant dark:text-inverse-on-surface px-4 py-2 hover:bg-surface-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="assignment">assignment</span>
+<span class="font-label text-xs font-medium mt-0.5">Tổng quan</span>
+</a>
+<!-- Tab 2: Kiểm món (ACTIVE STATE) -->
+<a aria-current="page" class="flex flex-col items-center justify-center min-h-[48px] bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg px-4 py-2 font-medium active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="checklist_rtl" style="font-variation-settings: 'FILL' 1;">checklist_rtl</span>
+<span class="font-label text-xs font-medium mt-0.5">Kiểm món</span>
+</a>
+<!-- Tab 3: Ký nhận & Cọc -->
+<a class="flex flex-col items-center justify-center min-h-[48px] text-on-surface-variant dark:text-inverse-on-surface px-4 py-2 hover:bg-surface-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="draw">draw</span>
+<span class="font-label text-xs font-medium mt-0.5">Ký nhận &amp; Cọc</span>
+</a>
+<!-- Tab 4: Biên bản -->
+<a class="flex flex-col items-center justify-center min-h-[48px] text-on-surface-variant dark:text-inverse-on-surface px-4 py-2 hover:bg-surface-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="receipt_long">receipt_long</span>
+<span class="font-label text-xs font-medium mt-0.5">Biên bản</span>
+</a>
+</nav>
+<!-- Lightweight touch micro-interactions for demonstration -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle checklists micro-interaction
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          const parentLabel = e.target.closest('label');
+          if (parentLabel && e.target.checked) {
+            parentLabel.classList.add('bg-emerald-50/50', 'border-emerald-200');
+          }
+        });
+      });
+    });
+  </script>
+</body></html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quyết toán cọc · DT-2611-0037 · Atelier Ops</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-surface": "#0d0e0e",
+            "on-secondary-fixed": "#52383f",
+            "primary-container": "#fc98b7",
+            "surface-bright": "#fbf9f7",
+            "on-error-container": "#6e0523",
+            "surface-container-high": "#e9e8e5",
+            "outline-variant": "#b1b2b0",
+            "primary-fixed": "#fc98b7",
+            "on-surface": "#313331",
+            "error-container": "#f97386",
+            "primary-dim": "#873854",
+            "on-secondary-fixed-variant": "#71545b",
+            "surface-tint": "#964460",
+            "on-tertiary-container": "#614615",
+            "tertiary-container": "#fad193",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#313331",
+            "surface-container-low": "#f5f3f1",
+            "tertiary": "#785a27",
+            "surface-variant": "#e2e3e0",
+            "on-tertiary-fixed": "#4c3303",
+            "secondary": "#75575f",
+            "on-tertiary": "#fff8f2",
+            "secondary-dim": "#684b53",
+            "tertiary-dim": "#6a4e1d",
+            "secondary-fixed": "#ffd9e2",
+            "surface-dim": "#dadad7",
+            "on-secondary-container": "#664a52",
+            "inverse-primary": "#fc98b7",
+            "primary-fixed-dim": "#ec8baa",
+            "primary": "#964460",
+            "on-primary": "#fff7f7",
+            "surface-container": "#efeeeb",
+            "on-primary-container": "#611a36",
+            "secondary-fixed-dim": "#f1cbd4",
+            "surface-container-highest": "#e2e3e0",
+            "on-tertiary-fixed-variant": "#6c4f1e",
+            "on-primary-fixed-variant": "#6c233f",
+            "on-primary-fixed": "#42011f",
+            "error": "#a8364b",
+            "tertiary-fixed": "#fad193",
+            "on-surface-variant": "#5e5f5d",
+            "surface": "#fbf9f7",
+            "outline": "#7a7b79",
+            "on-secondary": "#fff7f7",
+            "tertiary-fixed-dim": "#ebc386",
+            "secondary-container": "#ffd9e2",
+            "inverse-on-surface": "#9d9d9b",
+            "on-error": "#fff7f7",
+            "background": "#fbf9f7",
+            "error-dim": "#6b0221"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Be Vietnam Pro", "sans-serif"],
+            "display": ["Be Vietnam Pro", "sans-serif"],
+            "body": ["Be Vietnam Pro", "sans-serif"],
+            "label": ["Public Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- ==================== SHARED COMPONENT: SideNavBar ==================== -->
+<aside class="fixed top-0 left-0 h-full w-60 z-30 p-4 w-60 min-h-screen flex flex-col justify-between bg-surface-container-low border-r border-outline-variant/30 shadow-none">
+<div class="flex flex-col gap-5">
+<!-- Header Brand -->
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center font-headline font-bold text-lg shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">checkroom</span>
+</div>
+<div class="overflow-hidden">
+<span class="font-headline text-lg font-bold text-primary tracking-tight block truncate">Atelier Ops</span>
+<span class="text-xs text-on-surface-variant truncate block font-normal">Quản lý Thuê Trang Phục</span>
+</div>
+</div>
+<!-- Action Button CTA -->
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 bg-primary text-on-primary rounded-lg font-headline text-sm font-semibold tracking-normal hover:bg-primary-dim active:scale-[0.99] transition-transform duration-100 ease-out shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Tạo đơn mới</span>
+</button>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<!-- Tổng quan -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Tổng quan</span>
+</a>
+<!-- Đơn thuê -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Đơn thuê</span>
+</a>
+<!-- Lịch thuê -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Lịch thuê</span>
+</a>
+<!-- Sản phẩm & Kho -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">checkroom</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Sản phẩm &amp; Kho</span>
+</a>
+<!-- Vận hành -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Vận hành</span>
+</a>
+<!-- Tài chính (ACTIVE TAB for Deposit Settlement) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-on-primary font-medium transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Tài chính</span>
+</a>
+<!-- Báo cáo -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Báo cáo</span>
+</a>
+<!-- Cấu hình -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Cấu hình</span>
+</a>
+</nav>
+</div>
+<!-- Footer Links -->
+<div class="border-t border-outline-variant/20 pt-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Hỗ trợ</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+<span class="font-headline text-sm font-semibold tracking-normal">Tài khoản</span>
+</a>
+</div>
+</aside>
+<!-- ==================== SHARED COMPONENT: TopNavBar ==================== -->
+<header class="sticky top-0 z-20 flex justify-between items-center h-16 px-6 ml-60 w-[calc(100%-15rem)] bg-surface-container-lowest border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg pl-9 pr-3 py-1.5 text-xs text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Tìm hợp đồng, mã cọc, số điện thoại khách..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant/40 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">qr_code_scanner</span>
+<span>Quét mã QR</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-primary text-on-primary rounded-lg text-xs font-medium shadow-sm hover:bg-primary-dim transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>+ Tạo đơn</span>
+</button>
+<div class="h-5 w-[1px] bg-outline-variant/30 mx-1"></div>
+<button aria-label="Thông báo" class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors relative" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+</button>
+<button aria-label="Lịch sử" class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</button>
+<button aria-label="Cài đặt" class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<div class="flex items-center gap-2.5 pl-2 ml-1 border-l border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-semibold text-xs ring-1 ring-primary/20">
+          KT
+        </div>
+<div class="text-left text-xs leading-tight hidden lg:block">
+<p class="font-medium text-on-surface">Lê Hoàng Yến</p>
+<p class="text-[10px] text-on-surface-variant">Kế toán thanh toán</p>
+</div>
+</div>
+</div>
+</header>
+<!-- ==================== MAIN CONTENT CANVAS ==================== -->
+<main class="ml-60 p-8 pb-32 flex-1 max-w-[1400px] w-[calc(100%-15rem)]">
+<!-- 1. BREADCRUMB & HEADER SECTION -->
+<div class="mb-6">
+<nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
+<a class="hover:text-primary transition-colors" href="#">Tài chính &amp; Sổ quỹ</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Quản lý tiền cọc</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Quyết toán cọc DT-2611-0037</span>
+</nav>
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline text-2xl font-semibold text-on-surface tracking-tight">
+              Quyết toán cọc · <span class="font-mono text-primary font-bold">DT-2611-0037</span> · Nguyễn Thu Hà
+            </h1>
+<!-- Trạng thái -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-tertiary-container/40 text-on-tertiary-container border border-tertiary-container">
+<span class="material-symbols-outlined text-[14px]">pending_actions</span>
+              Chờ quyết toán hoàn cọc
+            </span>
+<!-- Tag VIP Gold -->
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-secondary-fixed text-on-secondary-fixed border border-secondary-fixed-dim">
+<span class="material-symbols-outlined text-[14px] text-tertiary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+              Khách VIP Gold
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1.5 flex items-center gap-3"><span>SĐT: <span class="text-on-surface font-mono font-medium">0918 234 567</span></span><span>•</span><span>Ngày trả trang phục: <strong class="text-on-surface">14:30 · Hôm nay</strong></span><span>•</span><span>Cơ sở bàn giao: <strong class="text-on-surface">Cửa hàng chính</strong></span></p>
+</div>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-low transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+            Xem hợp đồng gốc
+          </button>
+<button class="inline-flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-low transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">history_edu</span>
+            Lịch sử kho trả
+          </button>
+</div>
+</div>
+<!-- Lưu ý chuẩn mực kế toán -->
+<div class="mt-4 p-3.5 bg-surface-container-lowest rounded-xl border border-secondary/20 shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div class="text-xs">
+<div class="flex items-center gap-2">
+<span class="font-semibold text-primary font-headline">QUY CHUẨN KẾ TOÁN ATELIER OPS</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-surface-container text-on-surface-variant font-bold">TK 3386 / KÝ QUỸ HOÀN TRẢ</span>
+</div>
+<p class="text-on-surface-variant mt-0.5 leading-relaxed">
+            Tiền cọc không tính vào doanh thu cho thuê. Khoản ký cược đảm bảo tài sản được hạch toán riêng biệt, chỉ cấn trừ sang doanh thu phụ khi có phát sinh chi phí bồi hoàn, phạt quá hạn được khách hàng và quản lý ca xác nhận bằng biên bản nghiệm thu.
+          </p>
+</div>
+</div>
+</div>
+<!-- 2. CHECKLIST ĐIỀU KIỆN TIÊN QUYẾT (PRE-SETTLEMENT PRECONDITIONS) -->
+<div class="mb-6">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3.5 border-b border-outline-variant/20 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">fact_check</span>
+<h2 class="font-headline text-base font-semibold text-on-surface">Kiểm tra điều kiện tiền quyết toán cọc</h2>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Tiến độ điều kiện: <strong class="text-primary font-mono font-bold">3/4 đạt</strong> (1 khoản cần giữ bảo chứng)</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Item 1: Đã nhận trả -->
+<div class="p-3.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2E7D5B] bg-[#2E7D5B]/10 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                  ĐÃ XÁC NHẬN
+                </span>
+<span class="text-xs text-on-surface-variant font-mono">100% (3/3)</span>
+</div>
+<h3 class="font-semibold text-xs text-on-surface">Tất cả món đã nhận trả</h3>
+<p class="text-[11px] text-on-surface-variant mt-1">1 Váy cưới Lumière, 1 Vest Hoàng Gia, 1 Áo dài gấm sen đã nhập kho trả.</p>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>Kho: Nguyễn Văn Nam</span>
+<span class="font-mono text-on-surface">14:15</span>
+</div>
+</div>
+<!-- Item 2: Đã kiểm tra sợi/ren -->
+<div class="p-3.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2E7D5B] bg-[#2E7D5B]/10 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                  ĐẠT YÊU CẦU
+                </span>
+<span class="text-xs text-on-surface-variant font-mono">Đã nghiệm thu</span>
+</div>
+<h3 class="font-semibold text-xs text-on-surface">Tất cả món đã kiểm tra</h3>
+<p class="text-[11px] text-on-surface-variant mt-1">Sợi tơ, ren Chantilly &amp; đá pha lê Swarovski đính kết nguyên vẹn, không xước rách kết cấu.</p>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>KCS: Trần Mai Anh</span>
+<span class="font-mono text-on-surface">14:22</span>
+</div>
+</div>
+<!-- Item 3: Phí phát sinh -->
+<div class="p-3.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2E7D5B] bg-[#2E7D5B]/10 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                  ĐÃ CHỐT BIÊN BẢN
+                </span>
+<span class="text-xs text-error font-mono font-bold">-300.000đ</span>
+</div>
+<h3 class="font-semibold text-xs text-on-surface">Phí phát sinh đã chốt</h3>
+<p class="text-[11px] text-on-surface-variant mt-1">Trả trễ 5 giờ so với hẹn (đơn giá quy định 60.000đ/giờ). Khách đã ký biên bản đồng thuận.</p>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/20 flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>Biên bản: #BB-2611-09</span>
+<span class="font-mono text-on-surface">5h trễ</span>
+</div>
+</div>
+<!-- Item 4: Giữ lại 20% chờ giặt hấp (Cảnh báo Amber) -->
+<div class="p-3.5 rounded-lg bg-amber-50/60 dark:bg-tertiary-container/10 border-2 border-dashed border-[#B7791F] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#B7791F] bg-[#B7791F]/15 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                  GIỮ TẠM BẢO CHỨNG
+                </span>
+<span class="text-xs font-mono font-bold text-[#B7791F]">-1.000.000đ</span>
+</div>
+<h3 class="font-semibold text-xs text-on-surface">Giữ lại 20% chờ vệ sinh xong</h3>
+<p class="text-[11px] text-on-surface-variant mt-1">Váy cưới Lumière có vệt ố rượu vang chân tùng váy. Đang hấp sấy &amp; soi vết bẩn (còn 36 giờ).</p>
+</div>
+<div class="mt-3 pt-2 border-t border-[#B7791F]/30 flex items-center justify-between text-[11px] text-[#B7791F]">
+<span class="font-medium">Tự động hoàn sau: 36h</span>
+<span class="font-bold underline cursor-pointer hover:text-primary">Chi tiết giặt</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MAIN TWO-COLUMN WORKSPACE: LEFT (WATERFALL & BREAKDOWN) + RIGHT (REFUND METHOD & APPROVAL) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+<!-- CỘT TRÁI (7 COLS): WATERFALL BREAKDOWN & CHI TIẾT KHẤU TRỪ -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<!-- THẺ WATERFALL BREAKDOWN -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-6 shadow-sm">
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/20 mb-5">
+<div>
+<h2 class="font-headline text-base font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">waterfall_chart</span>
+                Sơ đồ khấu trừ dòng tiền cọc (Waterfall Breakdown)
+              </h2>
+<p class="text-xs text-on-surface-variant mt-0.5">Minh bạch các khoản khấu trừ trực tiếp từ tiền ký cược</p>
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono font-medium text-on-surface-variant">
+              Hợp đồng: DT-2611-0037
+            </span>
+</div>
+<!-- Dòng 1: Cọc thu ban đầu -->
+<div class="flex items-center justify-between py-3 px-3.5 rounded-lg bg-surface-container-low/70 mb-2.5">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold">
+                +
+              </div>
+<div>
+<p class="text-sm font-medium text-on-surface">Tiền cọc đã thu ban đầu</p>
+<p class="text-[11px] text-on-surface-variant font-mono">Chuyển khoản VietQR MBBank · 18/11/2026 10:20</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-base font-bold font-headline text-on-surface tabular-nums">+ 5.000.000đ</span>
+<span class="block text-[10px] text-on-surface-variant">100% Cọc ký quỹ</span>
+</div>
+</div>
+<!-- Dòng 2: Phí trả trễ -->
+<div class="flex items-center justify-between py-3 px-3.5 rounded-lg bg-surface-bright border border-outline-variant/20 mb-2.5">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-error/10 text-error flex items-center justify-center text-sm font-bold">
+                −
+              </div>
+<div>
+<div class="flex items-center gap-2">
+<p class="text-sm font-medium text-on-surface">Phí trả trễ trang phục</p>
+<span class="text-[10px] px-1.5 py-0.2 rounded bg-error/10 text-error font-medium">Khấu trừ</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">5 giờ quá hạn bàn giao (Quy định 60.000đ/giờ)</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-semibold font-headline text-error tabular-nums">− 300.000đ</span>
+<span class="block text-[10px] text-on-surface-variant">Chuyển sang DT phụ</span>
+</div>
+</div>
+<!-- Dòng 3: Phí hư hỏng -->
+<div class="flex items-center justify-between py-3 px-3.5 rounded-lg bg-surface-bright border border-outline-variant/20 mb-2.5 opacity-80">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-outline-variant/20 text-on-surface-variant flex items-center justify-center text-sm font-bold">
+                −
+              </div>
+<div>
+<div class="flex items-center gap-2">
+<p class="text-sm font-medium text-on-surface">Phí khắc phục hư hỏng</p>
+<span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-medium">Miễn phí</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Được miễn – khách đã mua Phí bảo vệ hư hỏng nhỏ (10%). Phí bảo vệ chỉ miễn cho vết bẩn thông thường, sứt chỉ, mất nút; hư hỏng lớn hoặc mất món vẫn tính phí.</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-medium font-headline text-on-surface-variant tabular-nums">0đ</span>
+<span class="block text-[10px] text-on-surface-variant">Không tổn thất kết cấu</span>
+</div>
+</div>
+<!-- Dòng 4: Cấn trừ tiền thuê -->
+<div class="flex items-center justify-between py-3 px-3.5 rounded-lg bg-surface-bright border border-outline-variant/20 mb-2.5 opacity-80">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-outline-variant/20 text-on-surface-variant flex items-center justify-center text-sm font-bold">
+                −
+              </div>
+<div>
+<div class="flex items-center gap-2">
+<p class="text-sm font-medium text-on-surface">Cấn trừ tiền thuê còn thiếu</p>
+<span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-medium">Đã thanh toán đủ</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Tiền thuê hợp đồng (5.500.000đ) đã tất toán 100% từ ngày nhận đồ</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-medium font-headline text-on-surface-variant tabular-nums">0đ</span>
+<span class="block text-[10px] text-on-surface-variant">Công nợ thuê: 0đ</span>
+</div>
+</div>
+<!-- Dòng 5: Giữ lại chờ kiểm tra giặt sấy -->
+<div class="flex items-center justify-between py-3 px-3.5 rounded-lg bg-amber-50/50 dark:bg-tertiary-container/10 border border-[#B7791F]/30 mb-4">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-[#B7791F]/15 text-[#B7791F] flex items-center justify-center text-sm font-bold">
+                −
+              </div>
+<div>
+<div class="flex items-center gap-2">
+<p class="text-sm font-medium text-on-surface">Tạm giữ chờ hoàn tất giặt hấp chuyên sâu</p>
+<span class="text-[10px] px-1.5 py-0.2 rounded bg-[#B7791F]/20 text-[#B7791F] font-bold">Bảo chứng</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Giữ 20% cọc đối với Váy cưới Lumière trong 36 giờ</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-bold font-headline text-[#B7791F] tabular-nums">− 1.000.000đ</span>
+<span class="block text-[10px] text-[#B7791F]">Hoàn đợt 2 sau khi sấy</span>
+</div>
+</div>
+<!-- TOTAL HIGHLIGHT (KẾT QUẢ CUỐI CÙNG) -->
+<div class="p-4 rounded-xl bg-gradient-to-r from-primary/10 via-surface-container-high/40 to-surface-container-low border-2 border-primary/30 flex items-center justify-between">
+<div>
+<span class="text-xs uppercase tracking-wider font-bold text-primary block">TỔNG TIỀN HOÀN NGAY CHO KHÁCH</span>
+<p class="text-xs text-on-surface-variant mt-0.5">Khách nhận ngay vào tài khoản cá nhân trong 60 giây</p>
+</div>
+<div class="text-right">
+<div class="text-3xl font-bold font-headline text-primary tabular-nums tracking-tight">
+                3.700.000đ
+              </div>
+<span class="text-[11px] font-mono text-on-surface-variant">Ba triệu bảy trăm nghìn đồng chẵn</span>
+</div>
+</div>
+</div>
+<!-- THÔNG TIN TÀI SẢN CHI TIẾT TRONG ĐỢT TRẢ -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-5 shadow-sm">
+<h3 class="font-headline text-sm font-semibold text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">inventory_2</span>
+            Danh mục tài sản kiểm định bàn giao trả
+          </h3>
+<div class="divide-y divide-outline-variant/20 text-xs">
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="font-mono text-on-surface-variant text-[11px]">#SKU-VC-089</span>
+<div>
+<p class="font-medium text-on-surface">Váy cưới Lumière Haute Couture (Size S)</p>
+<p class="text-[11px] text-on-surface-variant">Đã soi đèn UV: Có vệt bẩn nhẹ chân tùng váy · Đang giặt hấp khô chuyên dụng</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1F8A99]/10 text-[#1F8A99] border border-[#1F8A99]/30">
+                Đang vệ sinh (Giữ cọc)
+              </span>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="font-mono text-on-surface-variant text-[11px]">#SKU-VT-102</span>
+<div>
+<p class="font-medium text-on-surface">Bộ Tuxedo Đen Hoàng Gia Kèm Nơ Lụa (Size L)</p>
+<p class="text-[11px] text-on-surface-variant">Nguyên vẹn đường may, vải không nhăn gãy form</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-[#2E7D5B]/10 text-[#2E7D5B]">
+                Khả dụng kho
+              </span>
+</div>
+<div class="py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="font-mono text-on-surface-variant text-[11px]">#SKU-AD-044</span>
+<div>
+<p class="font-medium text-on-surface">Áo dài đôi Gấm Tơ Tằm Sen Trắng (Size M)</p>
+<p class="text-[11px] text-on-surface-variant">Khóa kéo trơn tru, đính ngọc trai đầy đủ</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-[#2E7D5B]/10 text-[#2E7D5B]">
+                Khả dụng kho
+              </span>
+</div>
+</div>
+</div>
+</div>
+<!-- CỘT PHẢI (5 COLS): PHƯƠNG THỨC HOÀN & DUYỆT BẢO MẬT (APPROVAL BOX) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- PHƯƠNG THỨC HOÀN CỌC -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-5 shadow-sm">
+<div class="flex items-center justify-between pb-3.5 border-b border-outline-variant/20 mb-4">
+<h3 class="font-headline text-base font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">account_balance_wallet</span>
+              Phương thức hoàn cọc
+            </h3>
+<span class="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded">Tự động đối soát</span>
+</div>
+<!-- Lựa chọn tài khoản hoàn -->
+<div class="space-y-3">
+<!-- Option 1: Selected Chuyển khoản VietQR -->
+<label class="p-3.5 rounded-lg border-2 border-primary bg-primary/5 flex items-start gap-3 cursor-pointer">
+<input checked="" class="mt-1 text-primary focus:ring-primary h-4 w-4" name="refund_method" type="radio"/>
+<div class="w-full">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-surface">Chuyển khoản (VietQR Hoàn)</span>
+<span class="text-[10px] bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded font-medium">Giống lúc thu</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-0.5">Hoàn về chính xác tài khoản ngân hàng khách đã thanh toán</p>
+<!-- Chi tiết tài khoản ngân hàng -->
+<div class="mt-3 p-3 bg-surface-container-lowest rounded-md border border-outline-variant/30 space-y-2">
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Ngân hàng:</span>
+<strong class="text-on-surface font-semibold">MB Bank (Quân Đội)</strong>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Số tài khoản:</span>
+<div class="flex items-center gap-1 font-mono font-bold text-primary">
+<span>0918 234 567</span>
+<button class="text-on-surface-variant hover:text-on-surface" title="Sao chép" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Chủ thụ hưởng:</span>
+<strong class="text-on-surface font-mono">NGUYEN THI MINH THU</strong>
+</div>
+<div class="flex justify-between text-xs pt-1 border-t border-outline-variant/20">
+<span class="text-on-surface-variant">Nội dung CK:</span>
+<span class="text-primary font-mono font-bold text-[11px]">HOAN COC DT-2611-0037 ATELIER</span>
+</div>
+</div>
+</div>
+</label>
+<!-- Option 2: Tiền mặt -->
+<label class="p-3 rounded-lg border border-outline-variant/30 bg-surface-container-low flex items-center justify-between cursor-pointer hover:bg-surface-container">
+<div class="flex items-center gap-3">
+<input class="text-primary focus:ring-primary h-4 w-4" name="refund_method" type="radio"/>
+<div>
+<span class="text-xs font-semibold text-on-surface">Tiền mặt tại quầy lễ tân</span>
+<p class="text-[10px] text-on-surface-variant">Kế toán quỹ xuất trực tiếp từ két tiền mặt ca sáng</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">payments</span>
+</label>
+</div>
+<!-- Nút sao chép / QR nhanh -->
+<div class="mt-4 flex items-center gap-2">
+<button class="flex-1 py-2 px-3 border border-outline-variant/40 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">qr_code_2</span>
+              Hiện mã QR chuyển tiền
+            </button>
+<button class="py-2 px-3 border border-outline-variant/40 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1" title="Sao chép toàn bộ thông tin chuyển tiền" type="button">
+<span class="material-symbols-outlined text-[16px]">copy_all</span>
+              Sao chép lệnh chi
+            </button>
+</div>
+</div>
+<!-- 5. KHỐI DUYỆT ĐẶC BIỆT (APPROVAL BOX) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-5 shadow-sm">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-[20px]">admin_panel_settings</span>
+<h3 class="font-headline text-base font-semibold text-on-surface">Phê duyệt quản lý chi nhánh</h3>
+</div>
+<div class="p-3 bg-amber-50/70 dark:bg-tertiary-container/15 rounded-lg border border-[#B7791F]/30 mb-4">
+<div class="flex items-start gap-2 text-xs">
+<span class="material-symbols-outlined text-[#B7791F] text-[18px] shrink-0">security</span>
+<div>
+<span class="font-bold text-[#B7791F]">Chính sách kiểm soát dòng tiền:</span>
+<p class="text-on-surface-variant text-[11px] mt-0.5">
+                  Các bút toán có khấu trừ hoặc giữ lại bảo chứng vượt 1.000.000đ bắt buộc phải có mã PIN xác thực của Quản lý ca vận hành.
+                </p>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<div>
+<label class="block text-xs font-medium text-on-surface-variant mb-1">Quản lý duyệt đề xuất:</label>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/30">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary text-[10px] font-bold flex items-center justify-center">
+                    QC
+                  </div>
+<span class="text-xs font-semibold text-on-surface">Phạm Quỳnh Chi (Manager Ca 1)</span>
+</div>
+<span class="text-[10px] text-[#2E7D5B] font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+                  Đang online
+                </span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-medium text-on-surface mb-1">Mã xác thực PIN Manager (6 chữ số):</label>
+<div class="relative">
+<input class="w-full tracking-widest text-center text-lg font-mono font-bold bg-surface-container-lowest border border-outline-variant/40 rounded-lg py-2 focus:ring-2 focus:ring-primary focus:border-primary transition-all" maxlength="6" placeholder="••••••" type="password" value="128945"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#2E7D5B] text-[18px]">check_circle</span>
+</div>
+<p class="text-[10px] text-[#2E7D5B] mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">done</span>
+                Mã PIN hợp lệ · Ủy quyền hoàn cọc đợt 1 thành công
+              </p>
+</div>
+<div>
+<label class="block text-xs font-medium text-on-surface-variant mb-1">Ghi chú quyết toán nội bộ:</label>
+<textarea class="w-full text-xs bg-surface-container-low border border-outline-variant/40 rounded-lg p-2 text-on-surface placeholder:text-on-surface-variant focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Nhập ghi chú cho kế toán tổng hợp..." rows="2">Khách đồng ý trừ 300k trễ 5 tiếng do tắc đường ngoại tỉnh. Giữ 1tr cọc váy Lumière hẹn hoàn nốt trước 17:00 ngày 28/11 sau khi tiệm giặt xong.</textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 6. BẢNG SỔ CÁI GIAO DỊCH TÀI KHOẢN CỌC (DEPOSIT LEDGER TABLE) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-5 shadow-sm mb-6">
+<div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-outline-variant/20 mb-4">
+<div>
+<h2 class="font-headline text-base font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">menu_book</span>
+            Sổ cái giao dịch tiền cọc hợp đồng (Deposit Ledger)
+          </h2>
+<p class="text-xs text-on-surface-variant mt-0.5"><span>SĐT: <span class="text-on-surface font-mono font-medium">0918 234 567</span></span><span>•</span><span>Ngày trả trang phục: <strong class="text-on-surface">14:30 · Hôm nay</strong></span><span>•</span><span>Cơ sở bàn giao: <strong class="text-on-surface">Cửa hàng chính</strong></span></p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-on-surface-variant">Tổng số bút toán: <strong class="text-on-surface font-mono">4</strong></span>
+<button class="text-xs text-primary font-medium hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">download</span>
+            Xuất Excel sổ cái
+          </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-medium border-b border-outline-variant/30">
+<th class="py-2.5 px-3">Mã GD</th>
+<th class="py-2.5 px-3">Thời gian ghi sổ</th>
+<th class="py-2.5 px-3">Loại giao dịch</th>
+<th class="py-2.5 px-3 text-right">Số tiền</th>
+<th class="py-2.5 px-3">Phương thức</th>
+<th class="py-2.5 px-3">Trạng thái kế toán</th>
+<th class="py-2.5 px-3">Nhân sự thực hiện</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 font-normal"><tr class="hover:bg-surface-container-high/40 transition-colors"><td class="py-3 px-3 font-mono font-medium text-primary">TX-CK-9901</td><td class="py-3 px-3 text-on-surface-variant font-mono">18/11/2026 10:20</td><td class="py-3 px-3 font-medium text-on-surface">Thu tiền cọc giữ váy &amp; đồ cưới</td><td class="py-3 px-3 text-right font-headline font-semibold text-[#2E7D5B] tabular-nums">+ 5.000.000đ</td><td class="py-3 px-3 text-on-surface-variant">VietQR MBBank</td><td class="py-3 px-3"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-[#2E7D5B]/10 text-[#2E7D5B]"><span class="material-symbols-outlined text-[12px]">check</span> Đã ghi nhận sổ </span></td><td class="py-3 px-3 text-on-surface">Nguyễn Thu Thảo (Lễ tân)</td></tr><tr class="hover:bg-surface-container-high/40 transition-colors"><td class="py-3 px-3 font-mono font-medium text-primary">TX-KT-0112</td><td class="py-3 px-3 text-on-surface-variant font-mono">26/11/2026 14:35</td><td class="py-3 px-3 font-medium text-on-surface">Khấu trừ phí phạt trễ 5 giờ</td><td class="py-3 px-3 text-right font-headline font-semibold text-error tabular-nums">− 300.000đ</td><td class="py-3 px-3 text-on-surface-variant">Cấn trừ nội bộ</td><td class="py-3 px-3"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-[#2F5DA8]/10 text-[#2F5DA8]"><span class="material-symbols-outlined text-[12px]">done_all</span> Đã chốt khấu trừ </span></td><td class="py-3 px-3 text-on-surface">Lê Hoàng Yến (Kế toán)</td></tr><tr class="hover:bg-surface-container-high/40 transition-colors bg-amber-50/20"><td class="py-3 px-3 font-mono font-medium text-[#B7791F]">TX-TG-0044</td><td class="py-3 px-3 text-on-surface-variant font-mono">26/11/2026 14:40</td><td class="py-3 px-3 font-medium text-on-surface">Tạm giữ chờ nghiệm thu giặt khô (Đợt 2)</td><td class="py-3 px-3 text-right font-headline font-semibold text-[#B7791F] tabular-nums">− 1.000.000đ</td><td class="py-3 px-3 text-on-surface-variant">Bảo chứng ký cược</td><td class="py-3 px-3"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#B7791F]/15 text-[#B7791F]"><span class="material-symbols-outlined text-[12px]">lock_clock</span> Tạm giữ 36 giờ </span></td><td class="py-3 px-3 text-on-surface">Phạm Quỳnh Chi (Manager)</td></tr><tr class="bg-primary/5 font-medium"><td class="py-3 px-3 font-mono font-bold text-primary">TX-HC-1088</td><td class="py-3 px-3 text-primary font-mono">Bút toán hiện tại</td><td class="py-3 px-3 font-semibold text-primary">Hoàn cọc đợt 1 cho khách hàng</td><td class="py-3 px-3 text-right font-headline font-bold text-primary tabular-nums">3.700.000đ</td><td class="py-3 px-3 text-on-surface">VietQR (Tài khoản MB)</td><td class="py-3 px-3"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-tertiary-container/50 text-on-tertiary-container"><span class="material-symbols-outlined text-[12px]">schedule</span> Sẵn sàng ghi nhận </span></td><td class="py-3 px-3 text-on-surface">Lê Hoàng Yến (Kế toán)</td></tr></tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- ==================== 7. STICKY BOTTOM ACTION BAR (BOTTOM CTA) ==================== -->
+<footer class="fixed bottom-0 right-0 left-60 z-30 bg-surface-container-lowest border-t border-outline-variant/30 py-3.5 px-8 shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3">
+<span class="text-xs text-on-surface-variant">Tổng tiền hoàn trả khách đợt 1:</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline text-2xl font-bold text-primary tabular-nums">3.700.000đ</span>
+<span class="text-xs text-on-surface-variant font-medium">(Còn giữ 1.000.000đ)</span>
+</div>
+</div>
+<div class="h-6 w-[1px] bg-outline-variant/30 hidden md:block"></div>
+<div class="text-[11px] text-on-surface-variant hidden lg:flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#2E7D5B]" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span>Tiền cọc không tính vào doanh thu thuê · Ký quỹ hoàn trả</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- In phiếu chi -->
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>In phiếu chi / Quyết toán (PDF)</span>
+</button>
+<!-- Gửi qua Zalo -->
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px] text-blue-600">send</span>
+<span>Gửi biên nhận qua Zalo cho khách</span>
+</button>
+<!-- Primary Action: Ghi nhận hoàn cọc -->
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:bg-primary-dim active:scale-[0.99] transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Ghi nhận hoàn cọc (3.700.000đ)</span>
+</button>
+</div>
+</footer>
+</body></html>
